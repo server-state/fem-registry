@@ -1,13 +1,13 @@
 const conn = require('./conn');
 
-module.exports = function query(statement, ...args) {
+module.exports = function query(statement) {
     return new Promise((resolve, reject) => {
-        const stmt = conn.prepare(statement);
-        return stmt.exec(...args, function(err) {
+        return conn.run(statement, function(err) {
             if (err)
                 reject(err);
-            else
+            else {
                 resolve(this.lastID);
+            }
         });
     });
 };

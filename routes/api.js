@@ -22,10 +22,19 @@ router.get('/cbm', (req, res) => {
 });
 
 router.get('/cbm/:id', async (req, res) => {
-
-    const cbm = await CBM.get(1);
-    cbm['publisher'] = await cbm.getPublisher();
-    return res.json(cbm);
+    try {
+        const cbm = await CBM.get(1);
+        const release = await cbm.getLatestApprovedRelease();
+        const publisher = await cbm.getPublisher();
+        return res.json({
+            ...cbm,
+            release,
+            publisher: {name: publisher.name}
+        });
+    } catch (e) {
+        console.warn(e);
+        return res.sendStatus(404);
+    }
 });
 
 router.get('/releases/:id', (req, res) => {

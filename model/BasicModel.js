@@ -11,17 +11,31 @@ module.exports = class BaseModel {
             // Update
             const fields = Object.keys(this);
 
-            return await exec(`UPDATE ? SET (?) (?) WHERE id=?`, this.constructor.table_name, fields.join(','), fields.map(field => `"${this[field]}"`).join(','), this.id);
+            const updateString = fields.map(
+                field => `${field} = "${this[field]}"`
+            ).join(',');
+            // noinspection SqlResolve
+            return await exec(`UPDATE ${this.constructor.table_name} SET ${updateString} WHERE id=${this.id};`);
         } else {
             // Create
-            const fields = Object.keys(this);
+            const fields = Object.keys(this).filter(field => this[field]);
 
-            this.id = await exec(`INSERT INTO ? (?) VALUES (?)`, this.constructor.table_name, fields.join(','), fields.map(field => `"${this[field]}"`).join(','));
+            const valuesString = fields.map(field => `"${this[field]}"`).join(',');
+            const statement = `INSERT INTO ${this.constructor.table_name} (${fields.join(',')}) VALUES (${valuesString})`;
+
+            this.id = await exec(statement);
+            console.log(this.id);
+            return this.id;
         }
     }
 
+    /**
+     * Delete this entry from the database table
+     * @returns {Promise<void>}
+     */
     async delete() {
-        return await exec(`DELETE FROM ? WHERE id=?;`, this.constructor.table_name, this.id);
+        // noinspection SqlResolve
+        return await exec(`DELETE FROM ${this.constructor.table_name} WHERE id=${this.id}`);
     }
 
     /**
@@ -30,17 +44,16 @@ module.exports = class BaseModel {
      * @returns {Promise<this>} row as current type
      */
     static async get(condition) {
-        const cbm = new this;
         if (typeof condition === 'number')
             condition = { id: condition };
 
         const whereString = Object.keys(condition).map(conditionName => {
-            if (condition[conditionName].toLowerCase() === 'not null')
-                return `${conditionName} NOT IS NULL`;
+            if (typeof condition[conditionName] === "string" && condition[conditionName].toLowerCase() === 'not null')
+                return `${conditionName} IS NOT NULL`;
 
             return `${conditionName}="${condition[conditionName]}"`
         }).join(' AND ');
-        const rows = (await query(`Select * FROM ? WHERE ${whereString}`, this.constructor.table_name));
+        const rows = (await query(`Select * FROM ${this.table_name} WHERE ${whereString}`));
 
         if (condition.id) {
             if (rows.length !== 1)
@@ -49,14 +62,18 @@ module.exports = class BaseModel {
             const instance = new this;
 
             for (let col in rows[0]) {
-                instance[col] = rows[0][col];
+                if (rows[0].hasOwnProperty(col) && this.hasOwnProperty(col)) {
+                    instance[col] = rows[0][col];
+                }
             }
             return instance;
         } else {
             return rows.map(row => {
                 const instance = new this;
                 for (let col in row) {
-                    instance[col] = row[col];
+                    if (row.hasOwnProperty(col) && this.hasOwnProperty(col)) {
+                        instance[col] = row[col];
+                    }
                 }
 
                 return instance;
