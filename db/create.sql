@@ -46,12 +46,12 @@ create table "release"
     approved_by   INTEGER default NULL,
     approved_at   TEXT    default NULL,
     id            INTEGER not null,
-    plugin_id     INTEGER not null,
+    cbm_id     INTEGER not null,
     constraint release_pk
         primary key (id autoincrement),
     foreign key (approved_by) references maintainer
         on update cascade,
-    foreign key (plugin_id) references cbm
+    foreign key (cbm_id) references cbm
         on update cascade on delete cascade
 );
 
