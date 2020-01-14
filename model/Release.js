@@ -1,7 +1,8 @@
+const BaseModel = require('./BaseModel');
 const Maintainer = require('./Maintainer');
-const CBM = require('./CBM');
-const BaseModel = require('./BasicModel');
+const Cbm = require('./Cbm');
 const Image = require('./Image');
+const get = require('./Get');
 
 module.exports = class Release extends BaseModel {
     static table_name = 'release';
@@ -16,7 +17,8 @@ module.exports = class Release extends BaseModel {
     approved_at;
 
     async getCBM() {
-        return await CBM.get(this.cbm_id);
+        // return await get(Cbm, 'cbm', this.cbm_id);
+        return await Cbm.get(this.cbm_id);
     }
 
     async getApprover() {
@@ -29,5 +31,9 @@ module.exports = class Release extends BaseModel {
 
     async getImages() {
         return await Image.get({release_id: this.id});
+    }
+
+    static async get(condition) {
+        return await get(this, 'release', condition);
     }
 };

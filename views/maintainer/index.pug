@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+    h1 Maintainer Area
+    p Hi, #{name}
+        |
+        a(href="/maintainer/logout") Log out...
+    h3 Pending Reviews
+    each review in pendingReviews
+        li=JSON.stringify(review.version)
+    else
+        p n/a
+    h3 Past Reviews
+    each review in pastReviews
+        li=review
+    else
+        p n/a

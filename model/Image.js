@@ -1,5 +1,6 @@
-const BaseModel = require('./BasicModel');
+const BaseModel = require('./BaseModel');
 const Release = require('./Release');
+const get = require('./Get');
 
 module.exports = class Image extends BaseModel {
     static table_name = 'image';
@@ -11,5 +12,9 @@ module.exports = class Image extends BaseModel {
 
     async getRelease() {
         return await Release.get(this.release_id);
+    }
+
+    static async get(condition) {
+        return await get(this, 'image', condition);
     }
 };

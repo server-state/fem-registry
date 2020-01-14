@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const CBM = require('../model/CBM');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -22,6 +21,7 @@ router.get('/cbm', (req, res) => {
 });
 
 router.get('/cbm/:id', async (req, res) => {
+    const CBM = require('../model/Cbm');
     try {
         const cbm = await CBM.get(1);
         const release = await cbm.getLatestApprovedRelease();

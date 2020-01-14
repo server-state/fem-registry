@@ -1,12 +1,13 @@
+const BaseModel = require('./BaseModel');
 const Publisher = require('./Publisher');
 const Release = require('./Release');
-const BaseModel = require('./BasicModel');
+const get = require('./Get');
 
 module.exports = class CBM extends BaseModel {
     static table_name = 'cbm';
 
     id;
-    name;
+    name = 'My CBM';
     publisher_id;
     repo_url;
     support_url;
@@ -23,5 +24,9 @@ module.exports = class CBM extends BaseModel {
     async getLatestApprovedRelease() {
         const releases = await this.getReleases(true);
         return releases.length > 0 ? releases[releases.length - 1] : null;
+    }
+
+    static async get(condition) {
+        return await get(this, 'cbm', condition);
     }
 };
