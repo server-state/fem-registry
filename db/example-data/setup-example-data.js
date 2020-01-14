@@ -67,4 +67,4 @@ async function setup() {
     }
 }
 
-setup();
+setup().then(() => console.log('Done')).catch(reason => console.error(reason));
