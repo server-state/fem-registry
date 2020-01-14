@@ -1,0 +1,23 @@
+[
+  {
+    "name": "A very cool CBM",
+    "publisher_id": 1,
+    "support_url": "mailto:cockpit@fliegwerk.com",
+    "website": "https://www.fliegwerk.com",
+    "repo_url": null
+  },
+  {
+    "name": "Another CBM by No 1",
+    "publisher_id": 1,
+    "support_url": "mailto:cockpit@fliegwerk.com",
+    "website": null,
+    "repo_url": null
+  },
+  {
+    "name": "One last example CBM",
+    "publisher_id": 2,
+    "support_url": "https://example.com",
+    "website": null,
+    "repo_url": null
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Maintainer 1",
+    "password": "12345",
+    "email": "klaschka@fliegwerk.com"
+  },
+  {
+    "name": "Maintainer 2",
+    "password": "123456",
+    "email": "richter@fliegwerk.com"
+  }
+]
