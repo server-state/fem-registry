@@ -11,4 +11,16 @@ table th, table td {
   text-align: left;
 }
 
+code {
+  display: block;
+  background: #EEE;
+  margin: -0.5em;
+  padding: 0.5em;
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
 /*# sourceMappingURL=style.css.map */

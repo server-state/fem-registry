@@ -1,5 +1,6 @@
 const BaseModel = require('./BaseModel');
 const get = require('./Get');
+const beautify = require('prettier');
 
 const {PENDING, APPROVED, REJECTED} = require('./Status');
 
@@ -40,6 +41,28 @@ module.exports = class Release extends BaseModel {
     async getImages() {
         const Image = require('./Image');
         return await Image.get({release_id: this.id});
+    }
+
+    async approve(maintainerID) {
+        this.status_by = maintainerID;
+        this.status_at = Date.now();
+        this.status = APPROVED;
+
+        await this.save();
+    }
+
+    async reject(maintainerID) {
+        this.status_by = maintainerID;
+        this.status_at = Date.now();
+        this.status = REJECTED;
+
+        await this.save();
+    }
+
+    get prettyCode() {
+        return beautify.format(this.code, {
+            singleQuote: true,
+        });
     }
 
     static async get(condition) {

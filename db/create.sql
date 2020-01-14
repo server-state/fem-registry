@@ -45,7 +45,7 @@ create table "release"
     release_notes TEXT    default '',
     status         INTEGER not null DEFAULT 0,
     status_by   INTEGER default NULL,
-    status_at   TEXT    default NULL,
+    status_at   INTEGER    default NULL,
     id            INTEGER not null,
     cbm_id     INTEGER not null,
     constraint release_pk

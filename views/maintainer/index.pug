@@ -13,6 +13,7 @@ block content
         p n/a
     h3 Past Reviews
     each review in pastReviews
-        li=review
+        li
+            a(href=`/maintainer/review/${review.id}`) #{review.status === 2 ? 'REJECTED' : 'APPROVED'} on #{review.status_at}: #{review.cbm.name} #{review.version}
     else
         p n/a
