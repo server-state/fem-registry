@@ -1,5 +1,5 @@
-const query = require('../db/query');
 const exec = require('../db/exec');
+const escape = require('escape-quotes');
 
 module.exports = class BaseModel {
     id;
@@ -12,7 +12,7 @@ module.exports = class BaseModel {
             const fields = Object.keys(this);
 
             const updateString = fields.map(
-                field => `${field} = "${this[field]}"`
+                field => `'${escape(field)}' = '${escape(this[field])}'`
             ).join(',');
             // noinspection SqlResolve
             return await exec(`UPDATE ${this.constructor.table_name} SET ${updateString} WHERE id=${this.id};`);
@@ -20,11 +20,10 @@ module.exports = class BaseModel {
             // Create
             const fields = Object.keys(this).filter(field => this[field]);
 
-            const valuesString = fields.map(field => `"${this[field]}"`).join(',');
-            const statement = `INSERT INTO ${this.constructor.table_name} (${fields.join(',')}) VALUES (${valuesString})`;
+            const valuesString = fields.map(field => `'${escape(this[field])}'`).join(',');
+            const statement = `INSERT INTO '${escape(this.constructor.table_name)}' (${fields.join(',')}) VALUES (${valuesString})`;
 
             this.id = await exec(statement);
-            console.log(this.id);
             return this.id;
         }
     }
@@ -35,7 +34,7 @@ module.exports = class BaseModel {
      */
     async delete() {
         // noinspection SqlResolve
-        return await exec(`DELETE FROM ${this.constructor.table_name} WHERE id=${this.id}`);
+        return await exec(`DELETE FROM '${escape(this.constructor.table_name)}' WHERE id='${escape(this.id)}'`);
     }
 };
 

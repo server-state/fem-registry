@@ -1,6 +1,6 @@
 const query = require('../db/query');
-const exec = require('../db/exec');
 const BaseModel = require('./BaseModel');
+const escape = require('escape-quotes');
 
 /**
  * Fetch the row with the passed id
@@ -19,9 +19,9 @@ module.exports = async function get(type, tableName, condition) {
         else if (condition[conditionName] === null)
             return `${conditionName} IS NULL`;
 
-        return `${conditionName}="${condition[conditionName]}"`
+        return `${conditionName}='${escape(condition[conditionName])}'`
     }).join(' AND ');
-    const rows = (await query(`Select * FROM ${tableName} WHERE ${whereString}`));
+    const rows = (await query(`Select * FROM '${escape(tableName)}' WHERE ${whereString}`));
 
     if (condition.id) {
         if (rows.length !== 1)
