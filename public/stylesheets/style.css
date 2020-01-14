@@ -7,4 +7,8 @@ a {
   color: #008575;
 }
 
+table th, table td {
+  text-align: left;
+}
+
 /*# sourceMappingURL=style.css.map */

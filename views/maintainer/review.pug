@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+    h1 Review #{name} #{version}
+    p by #{publisher.name} (
+        a(href=`mailto:${publisher.email}`)=publisher.email
+        | )
+    p
+        a(href="..") Go back
+    h2 CBM Data
+    table
+        tr
+            th Name
+            td=name
+        tr
+            th Support URL
+            td
+                a(href=support_url)=support_url
+        tr
+            th Website
+            td
+                if (repo_url)
+                    a(href=website)=website
+                else
+                    | n/a
+        tr
+            th Repository / Source Code
+            td
+                if (repo_url)
+                    a(href=repo_url)=repo_url
+                else
+                    | n/a
+    h2 Release
+    h3 Version
+    pre=version
+    h3 Description
+    pre=description
+    h3 Release Notes
+    pre=release_notes
+    h3 Code
+    pre
+        code=code
+
+    h2 Review
+    p Review here:
+    form(method="post")
+        fieldset
+            label
+                input(name="result" type="radio")
+                | Approve
+            label
+                input(name="result" type="radio")
+                | Reject
+        br
+        label
+            | Comment (e.g., reason for rejection)
+            br
+            textarea(name="reason")
+        br
+        input(type='submit')
+
+

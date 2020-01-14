@@ -1,5 +1,4 @@
 const BaseModel = require('./BaseModel');
-const Release = require('./Release');
 const get = require('./Get');
 
 module.exports = class Image extends BaseModel {
@@ -11,6 +10,7 @@ module.exports = class Image extends BaseModel {
     data;
 
     async getRelease() {
+        const Release = require('./Release');
         return await Release.get(this.release_id);
     }
 

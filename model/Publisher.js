@@ -1,5 +1,4 @@
 const BaseModel = require('./BaseModel');
-const CBM = require('./Cbm');
 const get = require('./Get');
 
 module.exports = class Publisher extends BaseModel {
@@ -14,6 +13,7 @@ module.exports = class Publisher extends BaseModel {
     email;
 
     async getCBMs() {
+        const CBM = require('./CBM');
         return await CBM.get({publisher_id: this.id});
     }
 

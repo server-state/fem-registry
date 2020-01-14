@@ -21,7 +21,6 @@ module.exports = async function get(type, tableName, condition) {
 
         return `${conditionName}="${condition[conditionName]}"`
     }).join(' AND ');
-    console.log(`Select * FROM ${tableName} WHERE ${whereString}`);
     const rows = (await query(`Select * FROM ${tableName} WHERE ${whereString}`));
 
     if (condition.id) {

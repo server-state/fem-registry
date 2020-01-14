@@ -2,7 +2,8 @@ const BaseModel = require('./BaseModel');
 const Publisher = require('./Publisher');
 const Release = require('./Release');
 const get = require('./Get');
-
+const {APPROVED} = require("./Status");
+get
 module.exports = class CBM extends BaseModel {
     static table_name = 'cbm';
 
@@ -18,7 +19,7 @@ module.exports = class CBM extends BaseModel {
     }
 
     async getReleases(mustBeApproved) {
-        return await Release.get(mustBeApproved ? {cbm_id: this.id, approved_at: 'NOT NULL'} : {cbm_id: this.id});
+        return await Release.get(mustBeApproved ? {cbm_id: this.id, status: APPROVED} : {cbm_id: this.id});
     }
 
     async getLatestApprovedRelease() {

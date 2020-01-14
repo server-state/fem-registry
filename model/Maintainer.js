@@ -1,5 +1,4 @@
 const BaseModel = require('./BaseModel');
-const Release = require('./Release');
 const get = require('./Get');
 
 module.exports = class Maintainer extends BaseModel {
@@ -10,8 +9,9 @@ module.exports = class Maintainer extends BaseModel {
     password;
     email;
 
-    async getApprovedReleases() {
-        return await Release.get({approved_by: this.id});
+    async getReviewedReleases() {
+        const Release = require('./Release');
+        return await Release.get({status_by: this.id});
     }
 
     static async get(condition) {
