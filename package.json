@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "ts-node ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "@types/js-beautify": "^1.8.1",

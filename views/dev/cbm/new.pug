@@ -2,11 +2,21 @@ extends ../../layout
 
 block content
     h1 New CBM
+    p Please insert the CBMs metadata. This can be changed later.
+    if error
+        p=error
     form(method='post')
+        h3 Required Fields
         label Name
             input(name='name' required)
         br
         label Support URL
             input(name='support_url' required type='url')
+        h3 Optional fields
+        label Project Homepage
+            input(name='website' type='url')
+        br
+        label Repository URL
+            input(name='repo_url' type='url')
         br
         input(type='submit' value='Create CBM')
