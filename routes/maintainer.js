@@ -118,5 +118,10 @@ router.get('/review/:id', async (req, res) => {
     return res.json(await Release.get(Number.parseInt(req.params.id)));
 });
 
+router.get('/logout', requireAuthenticated, (req, res) => {
+    req.logOut();
+    return res.redirect('/maintainer/login');
+});
+
 
 module.exports = router;

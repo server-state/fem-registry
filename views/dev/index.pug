@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+    h1 Developer Area
+    p Hi, #{name}
+        |
+        a(href="/dev/logout") Log out...
+
+    h2 CBMs
+    a(href="/dev/cbm/new") Create new CBM
+    nav
+        ul
+        each cbm in cbms
+            li #{cbm.name}
+        else
+            p n/a

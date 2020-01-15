@@ -1,0 +1,12 @@
+extends ../../layout
+
+block content
+    h1 New CBM
+    form(method='post')
+        label Name
+            input(name='name' required)
+        br
+        label Support URL
+            input(name='support_url' required type='url')
+        br
+        input(type='submit' value='Create CBM')
