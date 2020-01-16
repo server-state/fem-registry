@@ -10,11 +10,13 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, {publisherId: user.id});
 });
 
 passport.deserializeUser(async (user, done) => {
-    done(null, await Publisher.get(user))
+    if (!user.publisherId)
+        return done(null, null); // logged in as a maintainer => not a publisher
+    return done(null, await Publisher.get(user.publisherId))
 });
 
 router.use(passport.initialize());

@@ -11,6 +11,7 @@ block content
     nav
         ul
         each cbm in cbms
-            li #{cbm.name}
+            li
+                a(href=`/dev/cbm/${cbm.id}`)=cbm.name
         else
             p n/a

@@ -10,18 +10,20 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, {maintainerID: user.id});
 });
 
 passport.deserializeUser(async (user, done) => {
-    done(null, await Maintainer.get(user))
+    if (!user.maintainerID)
+        return done(null, null); // Logged in as a developer => not a maintainer
+    return done(null, await Maintainer.get(user.maintainerID));
 });
 
 router.use(passport.initialize());
 router.use(passport.session());
 
 function requireAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
+    if (req.isAuthenticated() && req.user instanceof Maintainer) {
         return next();
     } else {
         return res.redirect('/maintainer/login');

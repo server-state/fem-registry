@@ -1,4 +1,42 @@
 extends ../../layout
 
 block content
+    a(href='..')='Back'
     h1=cbm.name
+    p
+        if latest
+            p Released at #{latest.version} (
+                a(href=`./releases/${latest.id}`) View release
+                | )
+        else
+            | Not released (yet)
+    h2 Metadata
+    p
+        a(href='./edit') Edit
+    h3 Name
+    p=cbm.name
+    h3 Support URL
+    p
+        a(href=cbm.support_url)=cbm.support_url
+    h3 Website
+    p
+        if cbm.website
+            a(href=cbm.website)=cbm.website
+        else
+            | n/a
+    h3 Code Repository
+    p
+        if cbm.repo_url
+            a(href=cbm.repo_url)=cbm.repo_url
+        else
+            | n/a
+    h2 Releases
+    ul
+    each release in releases
+        li
+            a(href=`./releases/${release.id}`)=release.version
+
+    else
+        p n/a
+    pre
+        code=JSON.stringify([releases, latest], null, 2)
