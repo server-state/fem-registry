@@ -76,4 +76,46 @@ module.exports = class Release extends BaseModel {
     static async getPending() {
         return await this.get({status: PENDING});
     }
+
+    static async createRelease(cbm, code, images, releaseNotes) {
+        if (images.data)
+            images = [images].filter(v => v);
+
+        const parsedCode = JSON.parse(code.data.toString());
+
+        if (
+            !parsedCode.id
+            || !parsedCode.code
+            || !parsedCode.version
+            || !parsedCode.support_url
+        ) {
+            throw new Error('CBM metadata is missing a required field');
+        }
+
+        if (parsedCode.id !== cbm.id.toString())
+            throw new Error('Manifest ID does not match the CBM ID');
+
+        const imagesAreValid = images.reduce((prev, curr) => prev && curr.mimetype.startsWith('image/'), true);
+
+        if (!imagesAreValid)
+            throw new Error('Not all submitted image files are actually images');
+
+        // If we get to this point, we know everything about this is valid ;-)
+        const r = new Release();
+        r.cbm_id = cbm.id;
+        r.code = parsedCode.code;
+        r.support_url = parsedCode.support_url;
+        r.name = parsedCode.name;
+        r.version = parsedCode.version;
+        r.description = parsedCode.description;
+        r.release_notes = releaseNotes;
+        r.website = parsedCode.website;
+        r.repo_url = parsedCode.repo_url;
+        r.status = PENDING;
+
+        await r.save();
+        // TODO: Create Images
+
+        return r;
+    }
 };

@@ -13,6 +13,7 @@
     "debug": "~2.6.9",
     "escape-quotes": "^1.0.2",
     "express": "~4.16.1",
+    "express-fileupload": "^1.1.6",
     "express-session": "^1.17.0",
     "http-errors": "~1.6.3",
     "js-beautify": "^1.10.2",

@@ -5,10 +5,10 @@ block content
     p Please insert the release data. This cannot be changed later.
     if error
         p=error
-    form(method='post')
+    form(method='post' encType='multipart/form-data')
         h3 Required Fields
         label CBM file
-            input(name='code' accept='.json .cbm' multiple=false required type='file')
+            input(name='code' accept='.json, .cbm' multiple=false required type='file')
         h3 Optional fields
         label Release Notes
             textarea(name='release_notes')
