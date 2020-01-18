@@ -2,15 +2,22 @@ const express = require('express');
 const router = express.Router();
 const CBM = require('../model/CBM');
 const Release = require('../model/Release');
+const Image = require('../model/Image');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
     return res.json({status: 'ok'})
 });
 
-router.get('/image/:id', (req, res) => {
-    res.contentType('image/png');
-    res.send('abc'); // Image data
+router.get('/image/:id', async (req, res) => {
+    try {
+        console.log(req.params.id, Image, Image.get);
+        const i = await Image.get(Number.parseInt(req.params.id));
+        res.contentType(i.mime_type);
+        res.send(i.data) // Image data
+    } catch (e) {
+        res.sendStatus(404);
+    }
 });
 
 /**

@@ -1,11 +1,11 @@
 const conn = require('./conn');
 
-module.exports = function exec(statement) {
+module.exports = function exec(statement, ...args) {
     return new Promise((resolve, reject) => {
-        return conn.run(statement, function(err) {
-            if (err)
+        return conn.run(statement, ...args, function(err) {
+            if (err) {
                 reject(err);
-            else {
+            } else {
                 resolve(this.lastID);
             }
         });

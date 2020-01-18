@@ -8,6 +8,7 @@ module.exports = class Image extends BaseModel {
     release_id;
     alt;
     data;
+    mime_type;
 
     async getRelease() {
         const Release = require('./Release');
@@ -16,5 +17,16 @@ module.exports = class Image extends BaseModel {
 
     static async get(condition) {
         return await get(this, 'image', condition);
+    }
+
+    static async create(release, image) {
+        const i = new Image();
+        i.mime_type = image.mimetype;
+        i.data = image.data;
+        i.alt = 'TODO: Alt text';
+        i.release_id = release.id;
+        await i.save();
+
+        return i;
     }
 };

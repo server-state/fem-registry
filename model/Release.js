@@ -114,7 +114,13 @@ module.exports = class Release extends BaseModel {
         r.status = PENDING;
 
         await r.save();
-        // TODO: Create Images
+
+        // Uploading images:
+        const Image = require('./Image');
+
+        for (let image of images) {
+            await Image.create(r, image);
+        }
 
         return r;
     }

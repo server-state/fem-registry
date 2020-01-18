@@ -63,6 +63,7 @@ create table image
     alt        TEXT,
     data       BLOB    not null,
     release_id INTEGER not null,
+    mime_type  TEXT    not null,
     constraint image_pk
         primary key (id autoincrement),
     foreign key (release_id) references "release"
