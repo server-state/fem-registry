@@ -2,6 +2,7 @@ const BaseModel = require('./BaseModel');
 const Publisher = require('./Publisher');
 const Release = require('./Release');
 const get = require('./Get');
+const query = require('../db/query');
 const {APPROVED} = require("./Status");
 
 module.exports = class CBM extends BaseModel {
@@ -26,5 +27,21 @@ module.exports = class CBM extends BaseModel {
 
     static async get(condition) {
         return await get(this, 'cbm', condition);
+    }
+
+    static async search(q, page = 1) {
+        const res = await query(`
+        SELECT cbm_id, MAX(release.id) as release_id, "release".name
+        FROM "release",
+            "cbm"
+        where cbm.id = cbm_id
+        AND status = 1
+        AND "release".name LIKE ?
+        GROUP BY cbm.id
+        ORDER BY release_id DESC
+        LIMIT ?,20;
+        `, [`%${q}%`, (page - 1) * 20]);
+        console.log(res);
+        return res;
     }
 };

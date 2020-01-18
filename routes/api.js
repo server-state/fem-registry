@@ -23,10 +23,18 @@ router.get('/image/:id', async (req, res) => {
 /**
  * Returns cbm ids, optionally filtered by the search query with the `q` GET parameter, ordered by popularity
  */
-router.get('/cbm', (req, res) => {
-    const query = req.query['q']; // /api/plugins?q=My+Plugin
+router.get('/cbm', async (req, res) => {
+    try {
+        const query = req.query['q'] || ''; // /api/plugins?q=My+Plugin
+        const page = req.query['p'] || 1; // /api/plugins?q=My+Plugin
 
-    return res.json([1,2,3])
+        const result = await CBM.search(query, page);
+
+        return res.json(result.map(value => value['cbm_id']));
+    } catch (e) {
+        console.error(e);
+        return res.sendStatus(500);
+    }
 });
 
 router.get('/cbm/:id', async (req, res) => {
