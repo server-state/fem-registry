@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Release = require('../../model/Release');
+const releaseDetailRouter = require('./release-detail');
 
 router.get('/new', (req, res) => {
     return res.render('dev/cbm/release/new', {
@@ -24,8 +25,6 @@ router.param('release', async (req, res, next, id) => {
     }
 });
 
-router.get('/:release', async (req, res) => {
-    return res.render('dev/cbm/release/show', {...req.release});
-});
+router.use('/:release', releaseDetailRouter);
 
 module.exports = router;

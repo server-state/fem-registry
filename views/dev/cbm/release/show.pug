@@ -1,18 +1,23 @@
-h2 Metadata
-h3 Name
-p=name
-h3 Support URL
-p
-    a(href=support_url)=support_url
-h3 Website
-p
-    if cbm.website
-        a(href=website)=website
-    else
-        | n/a
-h3 Code Repository
-p
-    if cbm.repo_url
-        a(href=repo_url)=repo_url
-    else
-        | n/a
+extends ../../../layout
+
+block content
+    a(href='../../') Go Back
+    h1=`${name} ${version}`
+    h2 Metadata
+    h3 Name
+    p=name
+    h3 Support URL
+    p
+        a(href=support_url)=support_url
+    h3 Website
+    p
+        if website
+            a(href=website)=website
+        else
+            | n/a
+    h3 Code Repository
+    p
+        if repo_url
+            a(href=repo_url)=repo_url
+        else
+            | n/a
