@@ -3,16 +3,13 @@ const Publisher = require('./Publisher');
 const Release = require('./Release');
 const get = require('./Get');
 const {APPROVED} = require("./Status");
-get
+
 module.exports = class CBM extends BaseModel {
     static table_name = 'cbm';
 
     id;
     name = 'My CBM';
     publisher_id;
-    repo_url;
-    support_url;
-    website;
 
     async getPublisher() {
         return await Publisher.get(this.publisher_id);

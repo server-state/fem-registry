@@ -13,20 +13,17 @@ router.get('/new', async (req, res) => {
 });
 
 router.post('/new', async (req, res) => {
-    if (!req.body['name'] || !req.body['support_url'])
+    if (!req.body['name'])
         return res.render('dev/cbm/new', {
             error: 'Some required fields are empty!'
         });
 
     const cbm = new CBM();
     cbm.name = req.body.name;
-    cbm.support_url = req.body.support_url;
     cbm.publisher_id = req.user.id;
-    cbm.website = req.body['website'] || null;
-    cbm.repo_url = req.body['repo_url'] || null;
 
     await cbm.save();
-    return res.redirect(`/dev/cbm/${cbm.id}`);
+    return res.redirect(`/dev/cbm/${cbm.id}/`);
 });
 
 router.param('cbm', async (req, res, next, id) => {

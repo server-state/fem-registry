@@ -26,9 +26,6 @@ create table cbm
     id           INTEGER not null,
     name         TEXT    not null,
     publisher_id INTEGER,
-    support_url  TEXT    not null,
-    website      TEXT,
-    repo_url     TEXT,
     primary key (id autoincrement),
     foreign key (publisher_id) references publisher
         on update cascade on delete cascade
@@ -39,15 +36,19 @@ create unique index developer_email_uindex
 
 create table "release"
 (
+    id            INTEGER not null,
+    cbm_id     INTEGER not null,
+    name          TEXT    not null,
     version       TEXT    not null,
     code          TEXT    not null,
     description   TEXT    default '',
     release_notes TEXT    default '',
+    support_url  TEXT    not null,
+    website      TEXT,
+    repo_url     TEXT,
     status         INTEGER not null DEFAULT 0,
     status_by   INTEGER default NULL,
     status_at   INTEGER    default NULL,
-    id            INTEGER not null,
-    cbm_id     INTEGER not null,
     constraint release_pk
         primary key (id autoincrement),
     foreign key (status_by) references maintainer

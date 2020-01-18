@@ -23,7 +23,8 @@
     "passport-local-authenticate": "^1.2.0",
     "prettier": "^1.19.1",
     "pug": "^2.0.4",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.1.1",
+    "trailing-slash": "^2.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

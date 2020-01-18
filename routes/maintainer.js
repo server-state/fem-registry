@@ -26,7 +26,7 @@ function requireAuthenticated(req, res, next) {
     if (req.isAuthenticated() && req.user instanceof Maintainer) {
         return next();
     } else {
-        return res.redirect('/maintainer/login');
+        return res.redirect('/maintainer/login/');
     }
 }
 
@@ -72,8 +72,8 @@ router.get('/login', ((req, res) => {
 }));
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/maintainer',
-    failureRedirect: '/maintainer/login',
+    successRedirect: '/maintainer/',
+    failureRedirect: '/maintainer/login/',
     failureFlash: true
 }));
 
@@ -93,10 +93,10 @@ router.post('/review/:id', requireAuthenticated, async (req, res) => {
         return res.sendStatus(500);
     }
 
-    return res.redirect('/maintainer');
+    return res.redirect('/maintainer/');
 });
 
-router.get('/review/:id', async (req, res) => {
+router.get('/review/:id', requireAuthenticated, async (req, res) => {
 
     try {
         const release = await Release.get(Number.parseInt(req.params.id));
@@ -122,7 +122,7 @@ router.get('/review/:id', async (req, res) => {
 
 router.get('/logout', requireAuthenticated, (req, res) => {
     req.logOut();
-    return res.redirect('/maintainer/login');
+    return res.redirect('/maintainer/login/');
 });
 
 

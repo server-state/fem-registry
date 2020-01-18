@@ -26,24 +26,24 @@ function requireAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     } else {
-        return res.redirect('/dev/login');
+        return res.redirect('/dev/login/');
     }
 }
 
-router.get('/login', ((req, res) => {
+router.get('/login/', ((req, res) => {
     req.logOut();
     return res.render('login');
 }));
 
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/dev',
-    failureRedirect: '/dev/login',
+    successRedirect: '/dev/',
+    failureRedirect: '/dev/login/',
     failureFlash: true
 }));
 
 router.get('/logout', requireAuthenticated, (req, res) => {
     req.logOut();
-    return res.redirect('/dev/login');
+    return res.redirect('/dev/login/');
 });
 
 /* GET users listing. */

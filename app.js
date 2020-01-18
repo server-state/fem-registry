@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const sassMiddleware = require('node-sass-middleware');
+const trailingSlash = require('trailing-slash');
 
 const indexRouter = require('./routes/index');
 const devRouter = require('./routes/dev');
@@ -31,9 +32,9 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/dev', devRouter);
+app.use('/dev/', trailingSlash({slash: true}), devRouter);
 app.use('/api', apiRouter);
-app.use('/maintainer', maintainerRouter);
+app.use('/maintainer/', trailingSlash({slash: true}), maintainerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

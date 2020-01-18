@@ -1,0 +1,19 @@
+extends ../../../layout
+
+block content
+    h1 New Release
+    p Please insert the release data. This cannot be changed later.
+    if error
+        p=error
+    form(method='post')
+        h3 Required Fields
+        label CBM file
+            input(name='code' accept='.json .cbm' multiple=false required type='file')
+        h3 Optional fields
+        label Release Notes
+            textarea(name='release_notes')
+        br
+        label Screenshots
+            input(name='images' type='file' multiple=true accept='image/*')
+        br
+        input(type='submit' value='Submit new version')

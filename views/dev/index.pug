@@ -4,14 +4,14 @@ block content
     h1 Developer Area
     p Hi, #{name}
         |
-        a(href="/dev/logout") Log out...
+        a(href="./logout/") Log out...
 
     h2 CBMs
-    a(href="/dev/cbm/new") Create new CBM
+    a(href="./cbm/new/") Create new CBM
     nav
         ul
         each cbm in cbms
             li
-                a(href=`/dev/cbm/${cbm.id}`)=cbm.name
+                a(href=`./cbm/${cbm.id}/`)=cbm.name
         else
             p n/a

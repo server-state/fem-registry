@@ -11,12 +11,16 @@ module.exports = class Release extends BaseModel {
     cbm_id;
     version;
     code;
-    description;
-    release_notes;
+    name;
+    description = '';
+    release_notes = '';
+    repo_url;
+    support_url;
+    website;
     /**
      * @type {PENDING | APPROVED | REJECTED}
      */
-    status;
+    status = PENDING;
     status_by;
     status_at;
 
