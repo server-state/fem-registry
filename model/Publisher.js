@@ -22,6 +22,10 @@ module.exports = class Publisher extends BaseModel {
         this.password = await bcrypt.hash(password, 8);
     }
 
+    async verifyPassword(password) {
+        return await bcrypt.compare(password, this.password);
+    }
+
     static async get(condition) {
         return await get(this, 'publisher', condition);
     }

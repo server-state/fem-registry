@@ -1,0 +1,15 @@
+extends ../../layout
+
+block content
+    h1 Profile
+    h3 Name
+    p=name
+    p
+        a(href='./edit/') Edit
+    h3 Email
+    p=email
+    p
+        a(href='./change-email/') Change Email
+    h3 Password
+    p
+        a(href='./change-password/') Change password

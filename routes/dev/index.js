@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cbmRouter = require('./cbm');
+const profileRouter = require('./profile');
 const Publisher = require('../../model/Publisher');
 const passport = new (require('passport').Passport)();
 const LocalStrategy = require('passport-local').Strategy;
@@ -56,5 +57,6 @@ router.get('/', requireAuthenticated, async function (req, res) {
 });
 
 router.use('/cbm', requireAuthenticated, cbmRouter);
+router.use('/profile', requireAuthenticated, profileRouter);
 
 module.exports = router;

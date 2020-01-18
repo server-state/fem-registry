@@ -2,8 +2,10 @@ extends ../layout
 
 block content
     h1 Developer Area
-    p Hi, #{name}
-        |
+    p Hi,
+        span=" "
+        a(href='./profile/')=name
+        span=" "
         a(href="./logout/") Log out...
 
     h2 CBMs
