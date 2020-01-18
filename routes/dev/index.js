@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const cbmRouter = require('./cbm');
-const profileRouter = require('./profile');
+const cbmRouter = require('./cbm/cbm');
+const profileRouter = require('./profile/profile');
 const Publisher = require('../../model/Publisher');
 const passport = new (require('passport').Passport)();
 const LocalStrategy = require('passport-local').Strategy;

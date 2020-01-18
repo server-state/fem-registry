@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cbmDetailRouter = require('./cbm-detail');
-const CBM = require('../../model/CBM');
+const CBM = require('../../../model/CBM');
 
 /* GET home page. */
 router.get('/', function (req, res) {

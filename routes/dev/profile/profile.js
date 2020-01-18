@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-require('../../model/Publisher');
+require('../../../model/Publisher');
 router.get('/', (req, res) => {
     return res.render('dev/profile/show', req.user);
 });

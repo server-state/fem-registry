@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Release = require('../../model/Release');
+const Release = require('../../../../model/Release');
 const releaseDetailRouter = require('./release-detail');
 const fileUploadMiddleware = require('express-fileupload');
 
