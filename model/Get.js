@@ -6,7 +6,7 @@ const escape = require('escape-quotes');
  * @param {new () => import('./BaseModel')} type
  * @param {string} tableName
  * @param {Object<string,string|number>|number} condition id of the row
- * @returns {Promise<* | *[]>} row as current type
+ * @returns {Promise<import('./BaseModel') | import('./BaseModel')[]>} row as current type
  */
 module.exports = async function get(type, tableName, condition) {
     if (typeof condition === 'number')
