@@ -19,7 +19,7 @@ module.exports = class Publisher extends BaseModel {
     }
 
     async setPassword(password) {
-        this.password = await bcrypt.hash(password, 8);
+        this.password = await bcrypt.hash(password, 2);
     }
 
     async verifyPassword(password) {
@@ -34,7 +34,7 @@ module.exports = class Publisher extends BaseModel {
         try {
             const maintainer = (await Publisher.get({email: email}))[0];
 
-            const isMatch = bcrypt.compare(password, maintainer.password);
+            const isMatch = await bcrypt.compare(password, maintainer.password);
             if (isMatch) {
                 return done(null, maintainer);
             } else {

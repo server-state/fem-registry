@@ -27,7 +27,7 @@ module.exports = class Maintainer extends BaseModel {
         try {
             const maintainer = (await Maintainer.get({email: email}))[0];
 
-            const isMatch = bcrypt.compare(password, maintainer.password);
+            const isMatch = await bcrypt.compare(password, maintainer.password);
             if (isMatch) {
                 return done(null, maintainer);
             } else {

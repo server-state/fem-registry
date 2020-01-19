@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
             }
         );
     } else {
-        const uuid = uuidv5(req.url, uuidv5.URL);
+        const uuid = uuidv5(req.get('host'), uuidv5.URL);
         const verificationURL = new url.URL(`./${uuid}/`, url.format({
             protocol: req.protocol,
             host: req.get('host'),

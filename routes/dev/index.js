@@ -33,7 +33,7 @@ function requireAuthenticated(req, res, next) {
 
 router.get('/login/', ((req, res) => {
     req.logOut();
-    return res.render('login');
+    return res.render('login', {forgotPassword: '../forgot-password/'});
 }));
 
 router.post('/login', passport.authenticate('local', {
@@ -55,6 +55,8 @@ router.get('/', requireAuthenticated, async function (req, res) {
         cbms
     });
 });
+
+router.use('/forgot-password', require('./password-reset'));
 
 router.use('/cbm', requireAuthenticated, cbmRouter);
 router.use('/profile', requireAuthenticated, profileRouter);
