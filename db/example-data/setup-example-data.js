@@ -8,7 +8,7 @@ const releases = require('./releases.json');
 const fs = require('fs');
 
 const dbLocation = path.join(__dirname, '../db.sqlite');
-const backupLocation = path.join(__dirname, `../db.backup.${Date.now()}.sqlite`);
+const backupLocation = path.join(__dirname, `../db.real.sqlite`);
 
 async function setup() {
     if (fs.existsSync(dbLocation))

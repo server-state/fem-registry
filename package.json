@@ -5,8 +5,9 @@
   "scripts": {
     "start": "node ./bin/www",
     "test:e2e": "cypress run",
-    "test": "npm run-script example-data && start-server-and-test start http://localhost:3000 test:e2e",
-    "example-data": "node ./db/example-data/setup-example-data.js"
+    "test": "npm run-script example-data:setup && start-server-and-test start http://localhost:3000 test:e2e && npm run-script example-data:teardown",
+    "example-data:setup": "node ./db/example-data/setup-example-data.js",
+    "example-data:teardown": "node ./db/example-data/teardown-example-data.js"
   },
   "dependencies": {
     "@types/js-beautify": "^1.8.1",
