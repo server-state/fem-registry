@@ -4,6 +4,7 @@ const uuidv5 = require('uuid/v5');
 const validator = require('validator').default;
 const sendVerificationMail = require('../../../lib/email/verify-email');
 const url = require('url');
+const Publisher = require('../../../model/Publisher');
 
 let verificationTokens = {};
 
@@ -21,6 +22,11 @@ router.post('/',
     if (!validator.isEmail(req.body['email'])) {
         return res.render('dev/profile/change-email', {
                 error: 'Not a valid email'
+            }
+        );
+    } else if (await Publisher.isEmailUsed(req.body['email'])) {
+        return res.render('dev/profile/change-email', {
+                error: 'Email is already used.'
             }
         );
     } else {
