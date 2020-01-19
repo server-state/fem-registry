@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/change-password', require('./change-password'));
+router.use('/change-email', require('./change-email'));
 router.use('/edit', require('./edit'));
 
 module.exports = router;

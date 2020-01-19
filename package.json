@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "NODE_ENV=development node ./bin/www"
   },
   "dependencies": {
     "@types/js-beautify": "^1.8.1",
@@ -11,6 +11,7 @@
     "better-sqlite3": "^5.4.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "email-templates": "^6.1.1",
     "escape-quotes": "^1.0.2",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6",
@@ -25,15 +26,19 @@
     "prettier": "^1.19.1",
     "pug": "^2.0.4",
     "sqlite3": "^4.1.1",
-    "trailing-slash": "^2.0.0"
+    "trailing-slash": "^2.0.0",
+    "uuid": "latest",
+    "validator": "^12.1.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/email-templates": "^6.0.2",
     "@types/express": "^4.17.2",
     "@types/passport": "^1.0.2",
     "@types/passport-local": "^1.0.33",
     "@types/prettier": "^1.19.0",
     "@types/sqlite3": "^3.1.6",
+    "@types/uuid": "^3.4.6",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.4"
   }
