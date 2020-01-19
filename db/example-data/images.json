@@ -1,7 +1,7 @@
 [
   {
     "alt": "Image 1",
-    "data": "abc",
+    "mime_type": "image/png",
     "release_id": 3
   }
 ]

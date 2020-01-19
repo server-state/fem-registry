@@ -8,10 +8,11 @@ const releases = require('./releases.json');
 const fs = require('fs');
 
 const dbLocation = path.join(__dirname, '../db.sqlite');
+const backupLocation = path.join(__dirname, `../db.backup.${Date.now()}.sqlite`);
 
 async function setup() {
     if (fs.existsSync(dbLocation))
-        fs.unlinkSync(dbLocation);
+        fs.renameSync(dbLocation, backupLocation);
 
     const CBM = require('../../model/CBM');
     const Image = require('../../model/Image');
@@ -63,6 +64,7 @@ async function setup() {
             if (image.hasOwnProperty(key))
                 i[key] = image[key]
         }
+        i.data = fs.readFileSync(path.join(__dirname, 'img1.png'));
         await i.save();
     }
 }
