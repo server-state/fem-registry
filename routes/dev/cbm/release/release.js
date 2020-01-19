@@ -12,16 +12,31 @@ router.get('/new', (req, res) => {
 
 router.use(fileUploadMiddleware({}));
 
-router.post('/new', async (req, res) => {
+router.post('/new',
+    /**
+     * 
+     * @param {express.Request & {cbm, files}} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     try {
         const release = await Release.createRelease(req.cbm, req.files.code, req.files.images, req.body.release_notes);
-        return res.redirect(`../${release.id}/`);
+        res.redirect(`../${release.id}/`);
     } catch (e) {
-        return res.render('dev/cbm/release/new', {error: e.message});
+        res.render('dev/cbm/release/new', {error: e.message});
     }
 });
 
-router.param('release', async (req, res, next, id) => {
+router.param('release',
+    /**
+     * @param {express.Request & {release}} req
+     * @param res
+     * @param next
+     * @param id
+     * @returns {Promise<void>}
+     */
+    async (req, res, next, id) => {
     try {
         const release = await Release.get(Number.parseInt(id));
 
@@ -29,11 +44,11 @@ router.param('release', async (req, res, next, id) => {
             req.release = release;
             return next();
         } else {
-            return res.sendStatus(403);
+            res.sendStatus(403);
         }
     } catch (e) {
         console.log('release not found');
-        return res.sendStatus(404);
+        res.sendStatus(404);
     }
 });
 

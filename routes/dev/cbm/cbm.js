@@ -12,7 +12,13 @@ router.get('/new', async (req, res) => {
     return res.render('dev/cbm/new');
 });
 
-router.post('/new', async (req, res) => {
+router.post('/new',
+    /**
+     * @param {express.Request & {user}} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     if (!req.body['name'])
         return res.render('dev/cbm/new', {
             error: 'Some required fields are empty!'
@@ -26,7 +32,15 @@ router.post('/new', async (req, res) => {
     return res.redirect(`/dev/cbm/${cbm.id}/`);
 });
 
-router.param('cbm', async (req, res, next, id) => {
+router.param('cbm',
+    /**
+     * @param {express.Request & {user, cbm}} req
+     * @param res
+     * @param next
+     * @param id
+     * @returns {Promise<void>}
+     */
+    async (req, res, next, id) => {
     try {
         const cbm = await CBM.get(Number.parseInt(id));
 
@@ -34,10 +48,10 @@ router.param('cbm', async (req, res, next, id) => {
             req.cbm = cbm;
             return next();
         } else {
-            return res.sendStatus(403);
+            res.sendStatus(403);
         }
     } catch (e) {
-        return res.sendStatus(404);
+        res.sendStatus(404);
     }
 });
 

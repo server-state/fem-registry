@@ -30,7 +30,14 @@ function requireAuthenticated(req, res, next) {
     }
 }
 
-router.get('/', requireAuthenticated, async (req, res) => {
+router.get('/', requireAuthenticated,
+    /**
+     * 
+     * @param {import('express').Request & {user}} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     const pendingReviews = await Release.getPending();
     const pastReviews = await req['user'].getReviewedReleases();
 
@@ -66,10 +73,10 @@ router.get('/', requireAuthenticated, async (req, res) => {
     })
 });
 
-router.get('/login', ((req, res) => {
+router.get('/login', (req, res) => {
     req.logOut();
     return res.render('login');
-}));
+});
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/maintainer/',
@@ -77,7 +84,14 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
-router.post('/review/:id', requireAuthenticated, async (req, res) => {
+router.post('/review/:id', requireAuthenticated,
+    /**
+     * 
+     * @param {import('express').Request & {user}}req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     const release = await Release.get(Number.parseInt(req.params.id));
 
     try {
@@ -90,10 +104,10 @@ router.post('/review/:id', requireAuthenticated, async (req, res) => {
         }
     } catch (e) {
         console.error(e);
-        return res.sendStatus(500);
+        res.sendStatus(500);
     }
 
-    return res.redirect('/maintainer/');
+    res.redirect('/maintainer/');
 });
 
 router.get('/review/:id', requireAuthenticated, async (req, res) => {
@@ -120,7 +134,13 @@ router.get('/review/:id', requireAuthenticated, async (req, res) => {
     return res.json(await Release.get(Number.parseInt(req.params.id)));
 });
 
-router.get('/logout', requireAuthenticated, (req, res) => {
+router.get('/logout', requireAuthenticated,
+    /**
+     * 
+     * @param {import('express').Request} req
+     * @param res
+     */
+    (req, res) => {
     req.logOut();
     return res.redirect('/maintainer/login/');
 });

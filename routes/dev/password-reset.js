@@ -45,14 +45,20 @@ router.post('/', async (req, res) => {
     });
 });
 
-router.get('/:verificationUUID', async (req, res) => {
+router.get('/:verificationUUID',
+    /**
+     * @param {import('express').Request} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     // Save as variable to avoid racing conditions:
     const u = verificationTokens[req.params.verificationUUID];
 
     if (u) {
-        return res.render('password-reset-new');
+        res.render('password-reset-new');
     } else {
-        return req.sendStatus(404);
+        res.sendStatus(404);
     }
 });
 
@@ -78,7 +84,7 @@ router.post('/:verificationUUID', async (req, res) => {
             }
         });
     } else {
-        return req.sendStatus(404);
+        return res.sendStatus(404);
     }
 });
 

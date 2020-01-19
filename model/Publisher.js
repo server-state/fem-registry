@@ -29,6 +29,10 @@ module.exports = class Publisher extends BaseModel {
     static async get(condition) {
         return await get(this, 'publisher', condition);
     }
+    
+    static async isEmailUsed(email) {
+        return (await this.get({email})).length > 0;
+    }
 
     static async authenticate(email, password, done) {
         try {

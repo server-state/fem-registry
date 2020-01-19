@@ -5,10 +5,16 @@ router.get('/', (req, res) => {
     res.render('dev/profile/change-password');
 });
 
-router.post('/', async (req, res) => {
+router.post('/',
+    /**
+     * @param {express.Request & {user}} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     let error = [];
 
-    if (!req.body['old'] || !await req.user.verifyPassword(req.body['old'])) {
+    if (!req.body['old'] || !await req['user'].verifyPassword(req.body['old'])) {
         error.push('Old password isn\'t correct');
     }
 
@@ -21,11 +27,11 @@ router.post('/', async (req, res) => {
     }
 
     if (error.length) {
-        return res.render('dev/profile/change-password', {error: error.join(', ')});
+        res.render('dev/profile/change-password', {error: error.join(', ')});
     } else {
-        await req.user.setPassword(req.body['new1']);
-        await req.user.save();
-        return res.redirect('..');
+        await req['user'].setPassword(req.body['new1']);
+        await req['user'].save();
+        res.redirect('..');
     }
 });
 

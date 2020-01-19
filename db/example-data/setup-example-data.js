@@ -1,9 +1,9 @@
 const path = require('path');
-const cbms = require('./cbms');
-const images = require('./images');
-const maintainers = require('./maintainers');
-const publishers = require('./publishers');
-const releases = require('./releases');
+const cbms = require('./cbms.json');
+const images = require('./images.json');
+const maintainers = require('./maintainers.json');
+const publishers = require('./publishers.json');
+const releases = require('./releases.json');
 
 const fs = require('fs');
 

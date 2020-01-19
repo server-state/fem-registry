@@ -42,19 +42,30 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
-router.get('/logout', requireAuthenticated, (req, res) => {
-    req.logOut();
-    return res.redirect('/dev/login/');
-});
+router.get('/logout', requireAuthenticated,
+    /**
+     * @param {import('express').Request} req
+     * @param res
+     */
+    (req, res) => {
+        req.logOut();
+        return res.redirect('/dev/login/');
+    });
 
 /* GET users listing. */
-router.get('/', requireAuthenticated, async function (req, res) {
-    const cbms = await req['user'].getCBMs();
-    res.render('dev/index', {
-        name: req['user'].name,
-        cbms
+router.get('/', requireAuthenticated,
+    /**
+     * @param {express.Request & {user}} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async function (req, res) {
+        const cbms = await req['user'].getCBMs();
+        res.render('dev/index', {
+            name: req['user'].name,
+            cbms
+        });
     });
-});
 
 router.use('/forgot-password', require('./password-reset'));
 

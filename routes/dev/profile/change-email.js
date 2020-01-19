@@ -11,7 +11,13 @@ router.get('/', (req, res) => {
     res.render('dev/profile/change-email');
 });
 
-router.post('/', async (req, res) => {
+router.post('/',
+    /**
+     * @param {express.Request & {user, get}} req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async (req, res) => {
     if (!validator.isEmail(req.body['email'])) {
         return res.render('dev/profile/change-email', {
                 error: 'Not a valid email'
@@ -26,7 +32,7 @@ router.post('/', async (req, res) => {
         }));
 
         verificationTokens[uuid] = async () => {
-            req.user.email = req.body.email;
+            req['user'].email = req.body.email;
             await req.user.save();
         };
 
@@ -53,12 +59,12 @@ router.get('/:verificationUUID', async (req, res) => {
     if (f) {
         await f();
         verificationTokens[req.params.verificationUUID] = undefined;
-        return res.render('message', {
+        res.render('message', {
             title: 'Success',
             message: 'Your new email address has been verified successfully.'
         });
     } else {
-        return req.sendStatus(404);
+        res.sendStatus(404);
     }
 });
 
