@@ -6,13 +6,7 @@ context('Maintainer Area', () => {
             cy.visit('/maintainer/logout/').visit('/maintainer/login/');
         });
         it('should reject logins with wrong credentials', () => {
-            cy.get('input[name="username"]')
-                .type('klaschka@fliegwerk.com');
-            cy.get('input[name="password"]')
-                .type('wrong password');
-            cy.get('input')
-                .contains('Log in')
-                .click();
+            cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', 'wrong');
             cy.location('pathname').should('contain', 'login');
         });
 
@@ -22,20 +16,14 @@ context('Maintainer Area', () => {
         });
 
         it('should accept logins with correct credentials', () => {
-            cy.get('input[name="username"]')
-                .type('klaschka@fliegwerk.com');
-            cy.get('input[name="password"]')
-                .type('12345');
-            cy.get('input')
-                .contains('Log in')
-                .click();
+            cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
             cy.location('pathname').should('not.contain', 'login');
         });
     });
 
     context('Logged in', () => {
         before(() => {
-            cy.login('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
+            cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
             cy.reload();
             cy.screenshot();
         });
@@ -50,7 +38,7 @@ context('Maintainer Area', () => {
 
         describe('Reject a release', () => {
             before(() => {
-                cy.login('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
+                cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
                 cy.get('ul#pending a').first().click();
                 cy.contains('Reject').children('input').click();
                 cy.contains('Comment').children('textarea').type('Some rejection reason');
@@ -66,7 +54,7 @@ context('Maintainer Area', () => {
         });
         describe('Approve a release', () => {
             before(() => {
-                cy.login('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
+                cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
                 cy.get('ul#pending a').first().click();
                 cy.contains('Reject').children('input').click();
                 cy.contains('Comment').children('textarea').type('Some rejection reason');
