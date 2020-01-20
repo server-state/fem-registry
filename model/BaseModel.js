@@ -1,4 +1,5 @@
 const exec = require('../db/exec');
+const escape = require('escape-quotes');
 
 module.exports = class BaseModel {
     /**
