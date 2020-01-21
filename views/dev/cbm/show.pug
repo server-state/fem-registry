@@ -1,6 +1,8 @@
 extends ../../layout
 
+
 block content
+    - let verbs = ['pending review', 'approved', 'rejected'];
     a(href='..')='Back'
     h1=cbm.name
     p
@@ -13,7 +15,6 @@ block content
     p
         if releases.length > 0
             - let release = releases[releases.length - 1]
-            - let verbs = ['pending review', 'approved', 'rejected']
             if release.id === latest.id
                 | No new submitted versions
             else
@@ -24,7 +25,7 @@ block content
     ul
     each release in releases
         li
-            a(href=`./release/${release.id}/`)=release.version
+            a(href=`./release/${release.id}/`)=`${release.version} (${verbs[release.status]})`
 
     else
         p n/a
