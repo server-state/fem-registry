@@ -9,7 +9,9 @@ router.get('/new', (req, res) => {
     });
 });
 
-router.use(fileUploadMiddleware({}));
+router.use(fileUploadMiddleware({
+    limits: {fileSize: 1024*1024*2}
+}));
 
 router.post('/new',
     /**
