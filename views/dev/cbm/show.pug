@@ -10,6 +10,16 @@ block content
                 | )
         else
             | Not released (yet)
+    p
+        if releases.length > 0
+            - let release = releases[releases.length - 1]
+            - let verbs = ['pending review', 'approved', 'rejected']
+            if release.id === latest.id
+                | No new submitted versions
+            else
+                | Latest submitted version #{release.version} is #{verbs[release.status]}.
+        else
+            | No submitted versions
     h2 Releases
     ul
     each release in releases
