@@ -4,6 +4,12 @@ const CBM = require('../model/CBM');
 const Release = require('../model/Release');
 const Image = require('../model/Image');
 
+router.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 /* GET users listing. */
 router.get('/', function(req, res) {
     return res.json({status: 'ok'})
@@ -13,8 +19,8 @@ router.get('/image/:id', async (req, res) => {
     try {
         console.log(req.params.id, Image, Image.get);
         const i = await Image.get(Number.parseInt(req.params.id));
-        res.contentType(i.mime_type);
-        res.send(i.data) // Image data
+        res.contentType(i['mime_type']);
+        res.send(i['data']) // Image data
     } catch (e) {
         res.sendStatus(404);
     }
