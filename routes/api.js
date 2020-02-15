@@ -41,10 +41,12 @@ router.get('/cbm/:id', async (req, res) => {
     try {
         const cbm = await CBM.get(1);
         const release = await cbm.getLatestApprovedRelease();
+        const images = await release.getImages();
         const publisher = await cbm.getPublisher();
         return res.json({
             ...cbm,
             release,
+            images,
             publisher: {name: publisher.name}
         });
     } catch (e) {
@@ -59,7 +61,7 @@ router.get('/releases/:id', async (req, res) => {
         if (release.isApproved()) {
             return res.json(release);
         } else {
-            return res.sendStatus(503);
+            return res.sendStatus(400);
         }
     } catch (e) {
         return res.sendStatus(404);
