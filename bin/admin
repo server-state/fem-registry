@@ -10,7 +10,7 @@ async function confirm(question) {
     return (await qu.prompt([{name: 'cf', message: question, type: 'confirm'}]))['cf'];
 }
 
-async function prompt(label, validate = (value) => true) {
+async function prompt(label, validate = () => true) {
     return (await qu.prompt([{name: 'v', message: label, type: 'input', validate}]))['v'];
 }
 
@@ -55,7 +55,7 @@ async function run(cmd, answers) {
                 name: 'email',
                 type: 'input',
                 message: 'E-Mail:',
-                validate: validator.isEmail
+                validate: validator["isEmail"]
             },
             {
                 name: 'password',
@@ -73,7 +73,7 @@ async function run(cmd, answers) {
             }
         ], answers);
 
-        if (data.password !== data.password2) {
+        if (data.password !== data["password2"]) {
             console.error(ch.whiteBright(ch.bgRed(`Passwords didn't match. Please try again.`)));
             return run('add', data);
         } else {
@@ -130,7 +130,7 @@ async function modify(maintainer) {
         },
         {
             value: async () => {
-                maintainer.email = await prompt('New E-Mail: ', validator.isEmail)
+                maintainer.email = await prompt('New E-Mail: ', validator["isEmail"])
                 await maintainer.save();
 
                 console.log(ch.green('E-Mail got changed successfully.'));
@@ -180,7 +180,7 @@ async function changePassword(maintainer) {
         }
     ])
 
-    if (data.password !== data.password2) {
+    if (data.password !== data["password2"]) {
         console.error(ch.whiteBright(ch.bgRed(`Passwords didn't match. Please try again.`)));
         return changePassword(maintainer);
     } else {
