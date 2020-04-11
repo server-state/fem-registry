@@ -1,0 +1,193 @@
+#!/usr/bin/env node
+
+const qu = require('inquirer');
+const ch = require('chalk')
+const validator = require('validator');
+
+const model = require('../src/model');
+
+async function confirm(question) {
+    return (await qu.prompt([{name: 'cf', message: question, type: 'confirm'}]))['cf'];
+}
+
+async function prompt(label, validate = (value) => true) {
+    return (await qu.prompt([{name: 'v', message: label, type: 'input', validate}]))['v'];
+}
+
+async function choice(name, options) {
+    return (await qu.prompt([{name: 'choice', type: 'list', choices: options, message: name}]))['choice'];
+}
+
+async function run(cmd, answers) {
+    console.log();
+
+    if (cmd === 'exit') {
+        return 0;
+    } else if (cmd === 'modify') {
+        const maintainers = await model.Maintainer.findAll();
+
+        const id = await choice('Select a maintainer:',[
+                ...(maintainers.map(m => ({
+                    name: `${m.name} (${m.email})`,
+                    value: m.id
+                }))),
+                {
+                    name: 'Back to main menu',
+                    value: 'back'
+                }
+            ]
+        );
+
+        if (id === 'back') {
+            return run();
+        } else {
+            return modify(await model.Maintainer.findByPk(id));
+        }
+    } else if (cmd === 'add') {
+        const data = await qu.prompt([
+            {
+                name: 'name',
+                message: 'Full name:',
+                type: 'input',
+                validate: (value) => value.length > 3
+            },
+            {
+                name: 'email',
+                type: 'input',
+                message: 'E-Mail:',
+                validate: validator.isEmail
+            },
+            {
+                name: 'password',
+                type: 'password',
+                message: 'Password:',
+                askAnswered: true,
+                mask: '*'
+            },
+            {
+                name: 'password2',
+                type: 'password',
+                message: 'Repeat password:',
+                askAnswered: true,
+                mask: '*'
+            }
+        ], answers);
+
+        if (data.password !== data.password2) {
+            console.error(ch.whiteBright(ch.bgRed(`Passwords didn't match. Please try again.`)));
+            return run('add', data);
+        } else {
+            console.log(ch.yellow(`User data:`));
+            console.log(`Full name: ${data.name}`)
+            console.log(`E-Mail: ${data.email}`)
+
+            if (await confirm('Do you want to create this account?')) {
+                const newMaintainer = new model.Maintainer();
+                newMaintainer.email = data.email;
+                newMaintainer.name = data.name;
+                await newMaintainer.setPassword(data.password);
+
+                console.log(ch.green(`The account of ${data.name} (${data.email}) was successfully created.`))
+            } else {
+                console.log(ch.red(`Aborted.`));
+            }
+        }
+    } else {
+        const res = await qu.prompt([
+            {
+                name: 'operation',
+                message: 'What do you want to do?',
+                type: 'list',
+                choices: [
+                    {name: 'Add Maintainer', value: 'add'},
+                    {name: 'Modify Maintainer', value: 'modify'},
+                    {name: 'Exit', value: 'exit'},
+                ]
+            }
+        ]);
+
+        return run(res.operation);
+    }
+
+    return run();
+}
+
+async function modify(maintainer) {
+    console.log()
+
+    console.log(`Modifying maintainer with ID ${maintainer.id}`);
+
+    const cb = await choice('What would you like to do?', [
+        {
+            value: async () => {
+                maintainer.name = await prompt('New full name: ', (v) => v.length > 3)
+                await maintainer.save();
+                console.log(ch.green('Name got changed successfully.'));
+
+                return modify(maintainer);
+            },
+            name: 'Change name'
+        },
+        {
+            value: async () => {
+                maintainer.email = await prompt('New E-Mail: ', validator.isEmail)
+                await maintainer.save();
+
+                console.log(ch.green('E-Mail got changed successfully.'));
+
+                return modify(maintainer);
+            },
+            name: 'Change E-Mail'
+        },
+        {
+            value: () => changePassword(maintainer),
+            name: 'Change password'
+        },
+        {
+            value: async () => {
+                if (await confirm(`Do you really want to remove this account?`)) {
+                    await maintainer.destroy();
+                    console.log(ch.green('Maintainer account got deleted successfully.'));
+                    return run('modify')
+                }
+
+                return modify(maintainer);
+            },
+            name: 'Delete Maintainer'
+        },
+        {
+            value: async () => await run('modify'),
+            name: 'Go back'
+        },
+    ])
+
+    return cb();
+}
+
+async function changePassword(maintainer) {
+    const data = await qu.prompt([
+        {
+            name: 'password',
+            type: 'password',
+            message: 'Password:',
+            mask: '*'
+        },
+        {
+            name: 'password2',
+            type: 'password',
+            message: 'Repeat password:',
+            mask: '*'
+        }
+    ])
+
+    if (data.password !== data.password2) {
+        console.error(ch.whiteBright(ch.bgRed(`Passwords didn't match. Please try again.`)));
+        return changePassword(maintainer);
+    } else {
+        await maintainer.setPassword(data.password);
+        console.log(ch.green('Password got changed successfully.'));
+        return modify(maintainer);
+    }
+}
+
+run().catch(e => console.error(e.message));

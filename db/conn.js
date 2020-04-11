@@ -4,7 +4,9 @@ const fs = require('fs');
 
 const requireCreation = !fs.existsSync(path.join(__dirname, 'db.sqlite'));
 
-const conn = new Sequelize('sqlite::memory:');
+const conn = new Sequelize('sqlite::memory:', {
+    logging: false
+});
 
 
 // if (requireCreation)

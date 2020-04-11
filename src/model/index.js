@@ -32,7 +32,6 @@ db.sequelize.sync().then(() => {
     maintainer.name = 'Pablo Klaschka';
     maintainer.email = 'contact@pabloklaschka.de';
     maintainer.setPassword('12345').then(res => {
-        db.Maintainer.findAll().then(res => console.log(res));
     });
 });
 
