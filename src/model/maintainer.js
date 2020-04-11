@@ -48,5 +48,15 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
 
+    Maintainer.associate = (models) => {
+        models.Maintainer.hasMany(models.Release, {
+            foreignKey: {
+                name: 'status_by',
+                allowNull: true,
+                defaultValue: null
+            }
+        });
+    }
+
     return Maintainer;
 };

@@ -24,7 +24,6 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 function requireAuthenticated(req, res, next) {
-    console.log('requireAuthenticated', req.isAuthenticated(), req.user);
     if (req.isAuthenticated() && req.user) {
         return next();
     } else {
@@ -41,7 +40,7 @@ router.get('/', requireAuthenticated,
      */
     async (req, res) => {
         const pendingReviews = await model.Release.findAll({
-            where: {status: 0},
+            where: {status: model.Release.PENDING},
             attributes: ['id', 'version'],
             include: [
                 {
@@ -49,37 +48,40 @@ router.get('/', requireAuthenticated,
                 },
             ]
         });
-        // const pastReviews = await req['user'].getReviewedReleases();
 
-        console.log(pendingReviews);
+        const pastReviews = await req['user'].getReleases({
+            include: [ { model: model.CBM} ]
+        });
+
+        console.log(pastReviews)
+
 
         const pendingReviewData = await Promise.all(pendingReviews.map(async review => {
-            const publisher = await review.cbm.Publisher;
+            const publisher = await review.CBM.getPublisher();
 
             return {
                 id: review.id,
                 version: review.version,
-                cbm: cbm,
+                cbm: review.CBM,
                 publisher: publisher.name
             };
         }));
-        // const pastReviewData = await Promise.all(pastReviews.map(async review => {
-        //     const cbm = await review.getCBM();
-        //     const publisher = await cbm.getPublisher();
-        //
-        //     return {
-        //         id: review.id,
-        //         version: review.version,
-        //         status: review.status,
-        //         status_at: new Date(review.status_at).toLocaleString(),
-        //         cbm: cbm,
-        //         publisher: publisher.name
-        //     };
-        // }));
+        const pastReviewData = await Promise.all(pastReviews.map(async review => {
+            const publisher = await review.CBM.getPublisher();
+
+            return {
+                id: review.id,
+                version: review.version,
+                status: review.status,
+                status_at: new Date(review.status_at).toLocaleString(),
+                cbm: review.CBM,
+                publisher: publisher.name
+            };
+        }));
 
         return res.render('maintainer/index', {
-            pendingReviews: [],
-            pastReviews: [],
+            pendingReviews: pendingReviewData,
+            pastReviews: pastReviewData,
             name: req['user'].name
         })
     });
@@ -103,7 +105,7 @@ router.post('/review/:id', requireAuthenticated,
      * @returns {Promise<void>}
      */
     async (req, res) => {
-        const release = await Release.get(Number.parseInt(req.params.id));
+        const release = await model.Release.findByPk(req.params.id);
 
         try {
             if (req.body.result === 'approve') {
@@ -122,9 +124,8 @@ router.post('/review/:id', requireAuthenticated,
     });
 
 router.get('/review/:id', requireAuthenticated, async (req, res) => {
-
     try {
-        const release = await Release.get(Number.parseInt(req.params.id));
+        const release = await model.Release.findByPk(req.params.id);
         const cbm = await release.getCBM();
         const publisher = await cbm.getPublisher();
         const images = await release.getImages();
@@ -142,7 +143,7 @@ router.get('/review/:id', requireAuthenticated, async (req, res) => {
     } catch (e) {
         res.sendStatus(404);
     }
-    return res.json(await Release.get(Number.parseInt(req.params.id)));
+    return res.json(await model.Release.get(req.params.id));
 });
 
 router.get('/logout', requireAuthenticated,

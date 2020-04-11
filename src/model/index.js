@@ -30,13 +30,37 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 
-db.sequelize.sync().then(() => {
-    const maintainer = new db.Maintainer();
+db.sequelize.sync().then(async () => {
+    if (env === 'development') {
+        const maintainer = new db.Maintainer();
 
-    maintainer.name = 'Pablo Klaschka';
-    maintainer.email = 'contact@pabloklaschka.de';
-    maintainer.setPassword('12345').then(res => {
-    });
+        maintainer.name = 'Pablo Klaschka';
+        maintainer.email = 'contact@pabloklaschka.de';
+        await maintainer.setPassword('12345');
+
+        const publisher = new db.Publisher();
+        publisher.name = 'Test';
+        publisher.email = 'klaschka@fliegwerk.com';
+        publisher.password = maintainer.password;
+        await publisher.save();
+
+        const cbm = new db.CBM({name: 'Test CBM', PublisherId: publisher.id});
+        cbm.name = 'Teswt';
+        await cbm.save();
+
+        console.log(await db.CBM.findAll())
+
+        const release = await db.Release.create({
+            version: 'v1.0.0',
+            code: 'export default () => true',
+            support_url: 'httpjfwoejf'
+        });
+        await release.setCBM(cbm);
+
+        console.log(release);
+
+
+    }
 });
 
 module.exports = db;

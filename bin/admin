@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const qu = require('inquirer');
-const ch = require('chalk')
+const ch = require('chalk');
 const validator = require('validator');
 
 const model = require('../src/model');
@@ -26,7 +26,7 @@ async function run(cmd, answers) {
     } else if (cmd === 'modify') {
         const maintainers = await model.Maintainer.findAll();
 
-        const id = await choice('Select a maintainer:',[
+        const id = await choice('Select a maintainer:', [
                 ...(maintainers.map(m => ({
                     name: `${m.name} (${m.email})`,
                     value: m.id
