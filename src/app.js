@@ -7,9 +7,9 @@ const session = require('express-session');
 const sassMiddleware = require('node-sass-middleware');
 const trailingSlash = require('trailing-slash');
 
-const indexRouter = require('./routes/index');
-const devRouter = require('./routes/dev');
-const apiRouter = require('./routes/api');
+const indexRouter = require('./routes');
+// const devRouter = require('./routes/dev');
+// const apiRouter = require('./routes/api');
 const maintainerRouter = require('./routes/maintainer');
 
 const app = express();
@@ -29,11 +29,11 @@ app.use(sassMiddleware({
     indentedSyntax: true, // true = .sass and false = .scss
     sourceMap: true
 }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
-app.use('/dev/', trailingSlash({slash: true}), devRouter);
-app.use('/api', apiRouter);
+// app.use('/dev/', trailingSlash({slash: true}), devRouter);
+// app.use('/api', apiRouter);
 app.use('/maintainer/', trailingSlash({slash: true}), maintainerRouter);
 
 // catch 404 and forward to error handler
@@ -44,7 +44,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(
     /**
-     * 
+     *
      * @param {*} err
      * @param {import('express').Request} req
      * @param {import('express').Response} res
@@ -59,6 +59,6 @@ app.use(
     res.render('error');
 });
 
-require('./db/conn');
+require('../db/conn');
 
 module.exports = app;

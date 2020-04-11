@@ -1,12 +1,13 @@
-const sqlite = require('sqlite3').verbose();
+const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
 const fs = require('fs');
 
 const requireCreation = !fs.existsSync(path.join(__dirname, 'db.sqlite'));
 
-const conn = new sqlite.Database(path.join(__dirname, 'db.sqlite'));
+const conn = new Sequelize('sqlite::memory:');
 
-if (requireCreation)
-    conn.exec(fs.readFileSync(path.join(__dirname, 'create.sql')).toString());
+
+// if (requireCreation)
+    // conn.exec(fs.readFileSync(path.join(__dirname, 'create.sql')).toString());
 
 module.exports = conn;

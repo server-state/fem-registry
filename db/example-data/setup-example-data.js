@@ -14,11 +14,11 @@ async function setup() {
     if (fs.existsSync(dbLocation))
         fs.renameSync(dbLocation, backupLocation);
 
-    const CBM = require('../../model/CBM');
-    const Image = require('../../model/Image');
-    const Maintainer = require('../../model/Maintainer');
-    const Publisher = require('../../model/Publisher');
-    const Release = require('../../model/Release');
+    const CBM = require('../../src/model/CBM');
+    const Image = require('../../src/model/Image');
+    const Maintainer = require('../../src/model/Maintainer');
+    const Publisher = require('../../src/model/Publisher');
+    const Release = require('../../src/model/Release');
 
     for (let publisher of publishers) {
         const p = new Publisher();
