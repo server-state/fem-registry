@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const sendPasswordResetMail = require('../../lib/email/password-reset');
 const url = require('url');
-const uuidv5 = require('uuid/v5');
 
-let verificationTokens = {};
+const model = require('../../model');
 
 router.get('/', (req, res) => {
     res.render('password-reset');
@@ -12,28 +11,23 @@ router.get('/', (req, res) => {
 
 const Publisher = require('../../model/Publisher');
 router.post('/', async (req, res) => {
-    const users = await Publisher.get({email: req.body.email});
+    const publisher = await model.Publisher.findOne({where: {email: req.body.email}});
 
-    if (users.length !== 1)
+    if (!publisher)
         return res.render('password-reset', {
             error: 'An account with this email address does not exist.'
         });
 
-    const user = users[0];
+    const resetHandler = await model.PendingPasswordReset.create({PublisherId: publisher.id});
 
-    const uuid = uuidv5(req.get('host'), uuidv5.DNS);
-    const resetURL = new url.URL(`./${uuid}/`, url.format({
+    const resetURL = new url.URL(`./${resetHandler.id}/`, url.format({
         protocol: req.protocol,
         host: req.get('host'),
         pathname: req.originalUrl
     }));
 
-    verificationTokens[uuid] = user;
-
     // Deactivate link after 30 minutes
-    setTimeout(() => verificationTokens[uuid] = undefined, 1000 * 60 * 30);
-
-    await sendPasswordResetMail(user, resetURL.href);
+    await sendPasswordResetMail(publisher, resetURL.href);
 
     return res.render('message', {
         title: 'Check your email',
@@ -52,29 +46,35 @@ router.get('/:verificationUUID',
      * @returns {Promise<void>}
      */
     async (req, res) => {
-    // Save as variable to avoid racing conditions:
-    const u = verificationTokens[req.params.verificationUUID];
+        // Save as variable to avoid racing conditions:
+        const handler = await model.PendingPasswordReset.findByPk(req.params.verificationUUID);
 
-    if (u) {
-        res.render('password-reset-new');
-    } else {
-        res.sendStatus(404);
-    }
-});
+        if (handler) {
+            res.render('password-reset-new');
+        } else {
+            res.sendStatus(404);
+        }
+    });
 
 router.post('/:verificationUUID', async (req, res) => {
-    const u = verificationTokens[req.params.verificationUUID];
+    const handler = await model.PendingPasswordReset.findByPk(req.params.verificationUUID);
 
-    if (u) {
+    if (handler) {
+        if (Date.now() - 1000*60*10 > Date.parse(handler.createdAt)) {
+            await handler.destroy();
+            return res.sendStatus(410);
+        }
+
+        const publisher = await handler.getPublisher();
+
         if (!(req.body['new1'] && req.body['new2'] && req.body['new1'] === req.body['new2']))
             return res.render('password-reset-new', {error: 'Both passwords have to be filled in and identical'});
         if (req.body['new1'].length < 5)
             return res.render('password-reset-new', {error: 'Password has to be at least 5 characters long'});
 
-        await u.setPassword(req.body['new1']);
-        await u.save();
-        verificationTokens[req.params.verificationUUID] = undefined;
-        
+        await publisher.setPassword(req.body['new1']);
+        await handler.destroy();
+
         return res.render('message', {
             title: 'Success',
             message: 'Your password has been updated.',
