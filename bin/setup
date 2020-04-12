@@ -2,7 +2,6 @@
 
 const qu = require('inquirer');
 const ch = require('chalk');
-const validator = require('validator');
 const fs = require('fs');
 const path = require('path');
 const mailer = require('nodemailer');
@@ -168,14 +167,14 @@ async function constantSetup() {
     console.log(ch.bold('Constant Setup'));
     console.log(`Last, but not least, let's set up some constants used by the system.`)
 
-    const res = await qu.prompt(
+    config.constants = await qu.prompt(
         Object.keys(config.constants).map(key => ({
             name: key,
             default: config.constants[key],
             message: constantLabels[key],
             type: typeof config.constants[key] === 'number' ? 'number' : 'input'
         }))
-    )
+    );
 
     return await finish();
 }
