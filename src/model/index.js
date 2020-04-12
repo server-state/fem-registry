@@ -51,6 +51,7 @@ db.sequelize.sync().then(async () => {
         console.log(await db.CBM.findAll())
 
         const release = await db.Release.create({
+            name: 'Table CBM',
             version: 'v1.0.0',
             code: 'export default () => true',
             support_url: 'httpjfwoejf'

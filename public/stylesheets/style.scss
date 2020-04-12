@@ -1,21 +1,24 @@
 // site.scss
 $global-font-family: 'Libre Franklin', sans-serif;
 
-$global-primary-background: #ffc107;
+$primary-color: #9ee8ff;
+
+$global-primary-background: $primary-color;
 $button-primary-color: #000;
-$global-link-color: #ffc107;
+$global-link-color: saturate(darken($primary-color, 50%), 0%);
 
 // 1. Your custom variables and variable overwrites.
 //@import "theme/accordion.scss";
 // ... import all
 
 // 2. Import default variables and available mixins.
-@import "uikit/scss/variables.scss";
-@import "uikit/scss/mixins.scss";
+@import "uikit/scss/variables-theme.scss";
+@import "uikit/scss/mixins-theme.scss";
 
 // 3. Your custom mixin overwrites.
 //@import "theme/accordion-mixins.scss";
 // ... import all
 
 // 4. Import UIkit
-@import "uikit/scss/uikit-theme.scss";
+//@import "uikit/scss/uikit-theme.scss";
+@import "uikit/scss/uikit.scss";

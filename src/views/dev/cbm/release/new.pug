@@ -1,19 +1,30 @@
 extends ../../layout
 
+block append breadcrumbs
+    li
+        a(href='../../') #{cbm.name}
+    li
+        span Submit New Version
+
 block innercontent
     h1 New Release
     p Please insert the release data. This cannot be changed later.
     if error
-        p=error
+        .uk-alert-danger(uk-alert)=error
     form(method='post' encType='multipart/form-data')
         h3 Required Fields
-        label CBM file
-            input(name='code' accept='.json, .cbm' multiple=false required type='file')
+        label.uk-form-label CBM file
+            .uk-margin
+                div(uk-form-custom='target: true')
+                    input(name='code' accept='.json, .cbm' multiple=false required type='file')
+                    input.uk-input.uk-form-width-medium(disabled, placeholder='Select file')
+
+
         h3 Optional fields
-        label Release Notes
-            textarea(name='release_notes')
+        label.uk-form-label Release Notes
+            textarea.uk-textarea(name='release_notes')
         br
-        label Screenshots
+        label.uk-form-label Screenshots
             input(name='images' type='file' multiple=true accept='image/*')
         br
-        input(type='submit' value='Submit new version')
+        input.uk-margin.uk-button.uk-button-primary(type='submit' value='Submit new version')

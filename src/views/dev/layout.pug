@@ -1,7 +1,9 @@
 extends ../layout
 
 block navbar-right
-    a.uk-navbar-item(href='/dev/logout/') Logout
+    ul.uk-navbar-nav
+        li.uk-navbar-item
+            a(href='/dev/logout/') Logout
 
 block content
     div.uk-padding

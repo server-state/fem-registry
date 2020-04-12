@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true
         },
+        name: {type: DataTypes.STRING, allowNull: false},
         version: {type: DataTypes.STRING, allowNull: false},
         code: {type: DataTypes.TEXT, allowNull: false},
         description: {type: DataTypes.TEXT, defaultValue: ''},

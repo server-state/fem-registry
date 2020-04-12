@@ -10,11 +10,11 @@ block innercontent
         a(href='./profile/')=name
 
     h2 CBMs
-    a(href="./cbm/new/") Create new CBM
     nav
-        ul
-        each cbm in cbms
-            li
-                a(href=`./cbm/${cbm.id}/`)=cbm.name
-        else
-            p n/a
+        ul.uk-list.uk-list-divider
+            each cbm in cbms
+                li
+                    a(href=`./cbm/${cbm.id}/`)=cbm.name
+            else
+                p n/a
+    a.uk-button.uk-button-default(href="./cbm/new/") Create new CBM

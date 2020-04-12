@@ -5,13 +5,12 @@ block append breadcrumbs
         span New CBM
 
 block innercontent
-    h1 New CBM
     p Please insert the CBMs metadata. This can be changed later.
     if error
-        p=error
+        .uk-alert-danger(uk-alert)=error
     form(method='post')
         h3 Required Fields
-        label Project Name (for internal use, not visible to users)
-            input(name='name' required)
+        label.uk-form-label Project Name (for internal use, not visible to users)
+            input.uk-input(name='name' required)
         br
-        input(type='submit' value='Create CBM')
+        input.uk-button.uk-button-primary.uk-margin(type='submit' value='Create CBM')

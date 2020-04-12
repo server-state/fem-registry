@@ -16,24 +16,27 @@ block innercontent
                 h2.uk-card-title CBM Data
                 table.uk-table.uk-table-striped.uk-table-small
                     tr
-                        th Name
+                        th Project name (not public)
                         td=cbm.name
+                    tr
+                        th Name
+                        td=release.name
                     tr
                         th Support URL
                         td
-                            a(href=cbm.support_url)=cbm.support_url
+                            a(href=release.support_url)=release.support_url
                     tr
                         th Website
                         td
-                            if (cbm.website)
-                                a(href=cbm.website)=cbm.website
+                            if (release.website)
+                                a(href=release.website)=release.website
                             else
                                 | n/a
                     tr
                         th Repository / Source Code
                         td
-                            if (cbm.repo_url)
-                                a(href=cbm.repo_url)=cbm.repo_url
+                            if (release.repo_url)
+                                a(href=release.repo_url)=release.repo_url
                             else
                                 | n/a
         div
