@@ -1,5 +1,6 @@
 const {Model} = require('sequelize');
 const beautify = require('prettier');
+const fs = require('fs');
 
 module.exports = (sequelize, DataTypes) => {
     class Release extends Model {
@@ -27,6 +28,30 @@ module.exports = (sequelize, DataTypes) => {
             return beautify.format(this.code, {
                 singleQuote: true,
             });
+        }
+
+        get logoUrl() {
+            const folder = require('path').join(__dirname, '../../image-store', this.CBMId, this.id.toString());
+            // const folder = require('path').join(__dirname, '../../image-store', 'cbmId', 'releaseId');
+
+            if (fs.existsSync(folder)) {
+                let filename = (fs.readdirSync(folder).filter(f => f.startsWith('logo'))[0]);
+                return `/images/${this.CBMId}/${this.id}/${filename}`
+            } else {
+                return null
+            }
+        }
+
+        get imageUrls() {
+            const folder = require('path').join(__dirname, '../../image-store', this.CBMId, this.id.toString(), 'screenshots');
+
+            if (fs.existsSync(folder)) {
+                return fs.readdirSync(folder).filter(v => {
+                    return v.endsWith('.png') || v.endsWith('.svg') || v.endsWith('.jpg')
+                }).map(v => `/images/${this.CBMId}/${this.id}/${v}`);
+            } else {
+                return [];
+            }
         }
     }
 

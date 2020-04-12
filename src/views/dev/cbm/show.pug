@@ -1,9 +1,11 @@
 extends ../layout
 
+block append breadcrumbs
+    li
+        span #{cbm.name}
 
 block innercontent
     - let verbs = ['pending review', 'approved', 'rejected'];
-    a(href='..')='Back'
     h1=cbm.name
     p
         if latest
@@ -15,7 +17,7 @@ block innercontent
     p
         if releases.length > 0
             - let release = releases[releases.length - 1]
-            if release.id === latest.id
+            if latest && release.id === latest.id
                 | No new submitted versions
             else
                 | Latest submitted version #{release.version} is #{verbs[release.status]}.

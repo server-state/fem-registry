@@ -30,6 +30,7 @@ app.use(sassMiddleware({
     sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/images', express.static(path.join(__dirname, '../image-store')));
 
 app.use('/', indexRouter);
 app.use('/dev/', trailingSlash({slash: true}), devRouter);

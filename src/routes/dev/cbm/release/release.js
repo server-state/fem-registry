@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Release = require('../../../../model/Release');
+const model = require('../../../../model');
 const fileUploadMiddleware = require('express-fileupload');
 
 router.get('/new', (req, res) => {
@@ -15,7 +15,7 @@ router.use(fileUploadMiddleware({
 
 router.post('/new',
     /**
-     * 
+     *
      * @param {express.Request & {cbm, files}} req
      * @param res
      * @returns {Promise<void>}
@@ -42,7 +42,7 @@ router.param('release',
         /**
          * @type {*}
          */
-        const release = await Release.get(Number.parseInt(id));
+        const release = await model.Release.findByPk(id);
 
         if (req['cbm'].id === (await release.getCBM()).id) {
             req.release = release;
@@ -57,7 +57,7 @@ router.param('release',
 });
 
 router.get('/:release', async (req, res) => {
-    return res.render('dev/cbm/release/show', {...req['release'], publisher: await (await req['release'].getCBM()).getPublisher()});
+    return res.render('dev/cbm/release/show', {release: req['release'], publisher: await (await req['release'].getCBM()).getPublisher()});
 });
 
 module.exports = router;

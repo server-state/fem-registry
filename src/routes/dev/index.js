@@ -69,7 +69,7 @@ router.get('/', requireAuthenticated,
 
 // router.use('/forgot-password', require('./password-reset'));
 
-// router.use('/cbm', requireAuthenticated, cbmRouter);
+router.use('/cbm', requireAuthenticated, cbmRouter);
 router.use('/profile', requireAuthenticated, profileRouter);
 
 module.exports = router;

@@ -1,5 +1,20 @@
+const {Model} = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-    const CBM = sequelize.define('CBM', {
+    class CBM extends Model {
+        async getLatestApprovedRelease() {
+            const releases = await this.getReleases({
+                where: {
+                    status: 1
+                },
+                order: ['id']
+            });
+
+            return releases[0] || null;
+        }
+    }
+
+    CBM.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -10,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-    })
+    }, {sequelize, modelName: 'CBM'})
 
     CBM.associate = (models) => {
         models.CBM.belongsTo(models.Publisher, {

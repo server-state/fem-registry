@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cbmDetailRouter = require('./cbm-detail');
-const CBM = require('../../../model/CBM');
+const model = require('../../../model');
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -24,11 +24,11 @@ router.post('/new',
             error: 'Some required fields are empty!'
         });
 
-    const cbm = new CBM();
-    cbm.name = req.body.name;
-    cbm.publisher_id = req.user.id;
+    const cbm = await model.CBM.create({
+        name: req.body.name,
+        PublisherId: req.user.id
+    })
 
-    await cbm.save();
     return res.redirect(`/dev/cbm/${cbm.id}/`);
 });
 
@@ -42,7 +42,7 @@ router.param('cbm',
      */
     async (req, res, next, id) => {
     try {
-        const cbm = await CBM.get(Number.parseInt(id));
+        const cbm = await model.CBM.findByPk(id);
 
         if (req['user'].id === (await cbm.getPublisher()).id) {
             req.cbm = cbm;
