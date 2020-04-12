@@ -12,17 +12,14 @@
   "dependencies": {
     "@types/js-beautify": "^1.8.1",
     "bcryptjs": "^2.4.3",
-    "better-sqlite3": "^5.4.3",
     "chalk": "^4.0.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "email-templates": "^6.1.1",
-    "escape-quotes": "^1.0.2",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6",
     "express-session": "^1.17.0",
-    "fs-extra": "^9.0.0",
     "http-errors": "~1.6.3",
     "inquirer": "^7.1.0",
     "morgan": "~1.9.1",
@@ -36,7 +33,6 @@
     "shelljs": "^0.8.3",
     "sqlite3": "^4.1.1",
     "trailing-slash": "^2.0.0",
-    "uuid": "latest",
     "validator": "^12.1.0"
   },
   "devDependencies": {
@@ -49,7 +45,6 @@
     "@types/passport-local": "^1.0.33",
     "@types/prettier": "^1.19.0",
     "@types/sqlite3": "^3.1.6",
-    "@types/uuid": "^3.4.6",
     "cypress": "^3.8.2",
     "start-server-and-test": "^1.10.6",
     "ts-node": "^8.6.2",

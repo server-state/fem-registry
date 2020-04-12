@@ -30,14 +30,15 @@ html
         block navbar-right
           .uk-navbar-item
             a.uk-button.uk-button-primary(href='/dev/') Developer Portal
-    div(uk-height-viewport='expand: true')
+    div(uk-height-viewport='expand: true; offset-top: true')
       block content
 
-    hr
-    footer.uk-padding
-      p &copy; #{new Date().getFullYear()} by Server State, fliegwerk.
-      p
-        a(href='/dev/') Developer Portal
-        | &nbsp;|&nbsp;
-        a(href='/maintainer/') Maintainer Area
+    block footer
+      hr
+      footer.uk-padding
+        p &copy; #{new Date().getFullYear()} by Server State, fliegwerk.
+        p
+          a(href='/dev/') Developer Portal
+          | &nbsp;|&nbsp;
+          a(href='/maintainer/') Maintainer Area
     script(src='/js/uikit.min.js')

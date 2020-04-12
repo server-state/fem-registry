@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const fse = require('fs-extra');
 
 const express = require('express');
 const router = express.Router();
@@ -34,7 +33,7 @@ router.post('/',
             let screenshots = req.files.images;
 
             if (screenshots.data) {
-                req.files.images = [screenshots].filter(v => v);
+                screenshots = [screenshots].filter(v => v);
             }
 
             const imagesAreValid = screenshots.reduce((prev, curr) => prev && curr.mimetype.startsWith('image/'), true);
@@ -43,7 +42,10 @@ router.post('/',
             }
 
 
-            const parsedManifest = JSON.stringify(req.files.code.data.toString());
+            const parsedManifest = JSON.parse(req.files.code.data.toString());
+
+            console.log(parsedManifest, parsedManifest.id, cbmId);
+
             if (parsedManifest.id !== cbmId)
                 throw new Error('Manifest ID does not match the CBM ID.')
 
@@ -63,10 +65,12 @@ router.post('/',
             });
 
             // TODO: Copy images to correct folder
-            const releaseFolder = path.join(__dirname, '../../../../../image-store', cbmId, release.id);
+            const releaseFolder = path.join(__dirname, '../../../../../image-store', cbmId, release.id.toString());
             const screenshotFolder = path.join(releaseFolder, 'screenshots');
 
-            // fse.ensureDirSync(screenshotFolder);
+            if (fs.existsSync(releaseFolder))
+                fs.rmdirSync(releaseFolder, {recursive: true})
+            fs.mkdirSync(screenshotFolder, {recursive: true});
 
             fs.writeFileSync(path.join(releaseFolder, 'logo.png'), req.files.logo.data)
 
@@ -77,7 +81,7 @@ router.post('/',
 
             res.redirect(`../${release.id}/`);
         } catch (e) {
-            res.render('dev/cbm/release/new', {error: e.message});
+            res.render('dev/cbm/release/new', {error: e.message, cbm: req.cbm});
         }
     });
 

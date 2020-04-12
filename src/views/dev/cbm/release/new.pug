@@ -18,13 +18,25 @@ block innercontent
                 div(uk-form-custom='target: true')
                     input(name='code' accept='.json, .cbm' multiple=false required type='file')
                     input.uk-input.uk-form-width-medium(disabled, placeholder='Select file')
+                    button.uk-button.uk-button-default Select
 
 
         h3 Optional fields
-        label.uk-form-label Release Notes
-            textarea.uk-textarea(name='release_notes')
+        label.uk-form-label Logo
+            .uk-margin
+                div(uk-form-custom='target: true')
+                    input(name='logo' accept='image/png' multiple=false type='file')
+                    input.uk-input.uk-form-width-medium(disabled, placeholder='Select logo')
+                    button.uk-button.uk-button-default Select
         br
         label.uk-form-label Screenshots
-            input(name='images' type='file' multiple=true accept='image/*')
+            .uk-margin
+                div(uk-form-custom='target: true')
+                    input(name='images' accept='.jpg, .png, .svg' multiple=true type='file')
+                    input.uk-input.uk-form-width-medium(disabled, placeholder='Select screenshots')
+                    button.uk-button.uk-button-default Select
+        br
+        label.uk-form-label Release Notes
+            textarea.uk-textarea(name='release_notes')
         br
         input.uk-margin.uk-button.uk-button-primary(type='submit' value='Submit new version')

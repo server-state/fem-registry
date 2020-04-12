@@ -44,11 +44,9 @@ db.sequelize.sync().then(async () => {
         publisher.password = maintainer.password;
         await publisher.save();
 
-        const cbm = new db.CBM({name: 'Test CBM', PublisherId: publisher.id});
-        cbm.name = 'Teswt';
+        const cbm = new db.CBM({id: '105d0ba4-55d0-4724-871b-c39483923769', name: 'Test CBM', PublisherId: publisher.id});
+        cbm.name = 'Table CBM';
         await cbm.save();
-
-        console.log(await db.CBM.findAll())
 
         const release = await db.Release.create({
             name: 'Table CBM',
@@ -57,10 +55,6 @@ db.sequelize.sync().then(async () => {
             support_url: 'httpjfwoejf'
         });
         await release.setCBM(cbm);
-
-        console.log(release);
-
-
     }
 });
 
