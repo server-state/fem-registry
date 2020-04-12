@@ -7,3 +7,5 @@ cypress/videos
 
 .idea
 .vscode
+
+config/config.json

@@ -1,0 +1,204 @@
+#!/usr/bin/env node
+
+const qu = require('inquirer');
+const ch = require('chalk');
+const validator = require('validator');
+const fs = require('fs');
+const path = require('path');
+const mailer = require('nodemailer');
+const {Sequelize} = require('sequelize');
+
+const configFolder = path.join(__dirname, '..', 'config');
+const configFile = path.join(configFolder, 'config.json');
+
+let config = {
+    db: {},
+    smtp: {},
+    constants: {
+        signUpVerificationLinkExpiryAfterMinutes: 30,
+        emailChangeVerificationLinkExpiryAfterMinutes: 10,
+        passwordResetLinkExpiryAfterMinutes: 10,
+    }
+}
+
+const constantLabels = {
+    signUpVerificationLinkExpiryAfterMinutes: 'After how many minutes should the verification link for signing up expire?',
+    emailChangeVerificationLinkExpiryAfterMinutes: 'After how many minutes should the verification link for changing the email address expire?',
+    passwordResetLinkExpiryAfterMinutes: 'After how many minutes should the verification link for resetting the password expire?',
+}
+
+async function confirm(question) {
+    return (await qu.prompt([{name: 'cf', message: question, type: 'confirm'}]))['cf'];
+}
+
+async function prompt(label, validate = () => true) {
+    return (await qu.prompt([{name: 'v', message: label, type: 'input', validate}]))['v'];
+}
+
+async function choice(name, options) {
+    return (await qu.prompt([{name: 'choice', type: 'list', choices: options, message: name}]))['choice'];
+}
+
+async function run() {
+    console.log(`Welcome to the interactive setup for the CBM-Registry. ${ch.green(`Let's go!`)}`)
+
+    if (fs.existsSync(configFile)) {
+        if (!await confirm(ch.yellow(
+            'It appears this app is already set up and a config already exists. ' +
+            'Do you wish to continue anyway and overwrite the previous config?'
+        )))
+            process.exit(0);
+    }
+
+    console.log(`To proceed, you'll need to have a ${ch.blue(`compatible database`)} and ${ch.blue(`SMTP Email data`)} ready.`)
+
+    if (await confirm('Do you want to proceed?')) {
+        return await dbSetup();
+    } else {
+        console.log('See you in a bit ;-)')
+        process.exit(0);
+    }
+}
+
+/**
+ * Add a working database connection to the configuration
+ * @return {Promise<*>}
+ */
+async function dbSetup() {
+    console.log();
+    console.log(ch.bold('Database Setup'));
+
+    config.db['dialect'] = await choice('First things first: What database system do you want to use?', [
+        {name: 'SQLite', value: 'sqlite'},
+        {name: 'MySQL', value: 'mysql'},
+        {name: 'MariaDB', value: 'mariadb'},
+        {name: 'PostgreSQL', value: 'postgres'},
+    ]);
+
+    if (config.db['dialect'] === 'sqlite') {
+        config.db['storage'] = await prompt('Where is the .sqlite file located?', v => {
+            path.isAbsolute(path.resolve(process.cwd(), v));
+        })
+    } else {
+        do {
+            const connDetails = await qu.prompt(
+                [
+                    {name: 'host', message: 'Host', type: 'input'},
+                    {name: 'database', message: 'Database', type: 'input'},
+                    {name: 'username', message: 'Username', type: 'input'},
+                    {name: 'password', message: 'Password', type: 'password'},
+                ]
+            );
+
+            config.db = {
+                ...config.db,
+                ...connDetails
+            }
+        } while (!await canConnect(config.db));
+
+        console.log(ch.green('Connection Successful.'));
+
+        return await emailSetup();
+    }
+}
+
+/**
+ * Check the connection to a database using the passed config
+ * @param config
+ * @return {Promise<boolean>} Connection successful?
+ */
+async function canConnect(config) {
+    try {
+
+        const conn = new Sequelize(config);
+        await conn.authenticate({logging: false});
+        await conn.close();
+
+        return true;
+    } catch (e) {
+        console.log(ch.red(`Couldn't connect to database. Reason: ${e.message}`));
+        console.log(`Let's give it another shot:`)
+        return false;
+    }
+}
+
+async function emailSetup() {
+    console.log();
+    console.log(ch.bold('SMTP Server Setup'));
+    console.log('Please enter the SMTP server credentials:')
+
+    do {
+        const emailConfig = await qu.prompt([
+            {name: 'host', message: 'Host', type: 'input'},
+            {name: 'secure', message: 'Use TLS?', type: 'confirm'},
+            {name: 'port', message: 'Port', type: 'number'},
+            {name: 'username', message: 'Username', type: 'input'},
+            {name: 'password', message: 'Password', type: 'password'},
+        ]);
+
+        config.smtp = {
+            host: emailConfig.host,
+            secure: emailConfig.secure,
+            port: emailConfig.port,
+            auth: {
+                user: emailConfig.username,
+                pass: emailConfig.password
+            }
+        }
+    } while (!await checkSMTP(config.smtp))
+
+    return await constantSetup();
+}
+
+async function checkSMTP(config) {
+    try {
+        console.log('Testing credentials...')
+        await mailer.createTransport(config).verify();
+        console.log(ch.green('Connection successful.'))
+        return true;
+    } catch (e) {
+        console.log(ch.red(`Connection unsuccessful. Reason: ${e.message}`))
+        console.log(`Let's try again:`);
+        return false;
+    }
+}
+
+async function constantSetup() {
+    console.log();
+    console.log(ch.bold('Constant Setup'));
+    console.log(`Last, but not least, let's set up some constants used by the system.`)
+
+    const res = await qu.prompt(
+        Object.keys(config.constants).map(key => ({
+            name: key,
+            default: config.constants[key],
+            message: constantLabels[key],
+            type: typeof config.constants[key] === 'number' ? 'number' : 'input'
+        }))
+    )
+
+    return await finish();
+}
+
+async function finish() {
+    console.log();
+    console.log(ch.bold('Almost finished'))
+
+    console.log(config);
+
+    console.log()
+    if (await confirm(`Do you want to save the above config as ${ch.italic(ch.blue(`config/config.json`))}?`)) {
+
+        if (!fs.existsSync(configFolder))
+            fs.mkdirSync(configFolder, {recursive: true});
+
+        fs.writeFileSync(configFile, JSON.stringify(config, null, 2));
+    } else {
+        console.log('See you soon...')
+    }
+}
+
+run().catch(reason => {
+    console.error(ch.red(reason));
+    process.exit(2);
+});
