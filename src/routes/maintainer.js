@@ -5,6 +5,9 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const model = require('../model');
 
+const flash=require('connect-flash');
+router.use(flash());
+
 passport.use(new LocalStrategy(
     // () => true
     model.Maintainer.authenticate
@@ -88,13 +91,13 @@ router.get('/', requireAuthenticated,
 
 router.get('/login', (req, res) => {
     req.logOut();
-    return res.render('login');
+    return res.render('login', {error: req.flash('error')});
 });
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/maintainer/',
     failureRedirect: '/maintainer/login/',
-    failureFlash: true
+    failureFlash: 'Invalid credentials. Please try again...'
 }));
 
 router.post('/review/:id', requireAuthenticated,

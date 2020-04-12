@@ -24,9 +24,10 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(session({secret: 'abc'}));
 app.use(sassMiddleware({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public'),
-    indentedSyntax: true, // true = .sass and false = .scss
+    src: path.join(__dirname, '../public'),
+    dest: path.join(__dirname, '../public'),
+    indentedSyntax: false, // true = .sass and false = .scss
+    debug: true,
     sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, '../public')));

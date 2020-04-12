@@ -6,6 +6,9 @@ const model = require('../../model');
 const passport = new (require('passport').Passport)();
 const LocalStrategy = require('passport-local').Strategy;
 
+const flash=require('connect-flash');
+router.use(flash());
+
 passport.use(new LocalStrategy(
     model.Publisher.authenticate
 ));
@@ -33,13 +36,13 @@ function requireAuthenticated(req, res, next) {
 
 router.get('/login/', ((req, res) => {
     req.logOut();
-    return res.render('login', {forgotPassword: '../forgot-password/'});
+    return res.render('login', {forgotPassword: '../forgot-password/', error: req.flash('error')});
 }));
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/dev/',
     failureRedirect: '/dev/login/',
-    failureFlash: true
+    failureFlash: 'Invalid credentials. Please try again...'
 }));
 
 router.get('/logout', requireAuthenticated,
