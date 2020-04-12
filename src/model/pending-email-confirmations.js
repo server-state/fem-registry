@@ -1,5 +1,13 @@
+const {Model} = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-    const PendingEmailConfirmations = sequelize.define('PendingEmailConfirmations', {
+    class PendingEmailConfirmations extends Model {
+        isExpired(minutesTillExpiry) {
+            return (Date.now() - 1000*60*minutesTillExpiry > Date.parse(this.createdAt));
+        }
+    }
+
+    PendingEmailConfirmations.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -10,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         }
-    });
+    }, {
+        sequelize,
+        modelName: 'PendingEmailConfirmations'
+    })
 
     PendingEmailConfirmations.associate = (models) => {
         models.PendingEmailConfirmations.belongsTo(models.Publisher, {

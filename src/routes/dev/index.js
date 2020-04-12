@@ -71,6 +71,7 @@ router.get('/', requireAuthenticated,
     });
 
 router.use('/forgot-password', require('./password-reset'));
+router.use('/sign-up', require('./sign-up'));
 
 router.use('/cbm', requireAuthenticated, cbmRouter);
 router.use('/profile', requireAuthenticated, profileRouter);

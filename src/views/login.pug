@@ -1,27 +1,25 @@
-extends layout
+extends auth-layout
 
-block navbar-right
+block auth
+    h1 Login
 
-block content
-    div.uk-child-width-1-2.uk-height-viewport(uk-grid, uk-height-viewport='offset-top: true; offset-bottom: true')
-        div.uk-cover-container
-            img(src='/img/cbm-hero-blue.jpg', uk-cover)
-        div.uk-padding
-            h1 Login
-            if (error && error.length > 0)
-                .uk-alert-danger(uk-alert)=error
-            form(method='post', tabindex=1)
-                label.uk-form-label Email
-                    br
-                    input.uk-input(name='username' type='email', autofocus=true)
-                br
-                label.uk-form-label Password
-                    br
-                    input.uk-input(name='password' type='password')
-                br
-                input.uk-margin-top.uk-button.uk-button-primary(type='submit' value='Log in')
-            if forgotPassword
-                p
-                    a(href=forgotPassword) Forgot Password?
+    p Don't have an account yet?
+        | &nbsp;
+        a(href='../sign-up/') Sign up for free
 
-block footer
+    if (error && error.length > 0)
+        .uk-alert-danger(uk-alert)=error
+    form(method='post', tabindex=1)
+        label.uk-form-label Email
+            br
+            input.uk-input(name='username' type='email', autofocus=true)
+        br
+        label.uk-form-label Password
+            br
+            input.uk-input(name='password' type='password')
+        br
+        input.uk-margin-top.uk-button.uk-button-primary(type='submit' value='Log in')
+    if forgotPassword
+        p
+            a(href=forgotPassword) Forgot Password?
+

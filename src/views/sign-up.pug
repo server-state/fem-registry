@@ -1,0 +1,30 @@
+extends auth-layout
+
+block auth
+    h1 Sign Up
+    p After registering, you'll need to verify your email address. After that, you'll be ready to create your own CBMs.
+
+    p Already have an account?
+        a(href='../login/') Log in
+
+    if (error && error.length > 0)
+        .uk-alert-danger(uk-alert)=error
+    form(method='post', tabindex=1)
+        label.uk-form-label Email
+            br
+            input.uk-input(name='email' type='email', required, autofocus=true)
+        br
+        label.uk-form-label Company/Personal Name (visible to users)
+            br
+            input.uk-input(type='text' name='name' required)
+        br
+        label.uk-form-label Password
+            br
+            input.uk-input(name='p1' type='password', required)
+        br
+        label.uk-form-label Repeat Password
+            br
+            input.uk-input(name='p2' type='password', required)
+        br
+        input.uk-margin-top.uk-button.uk-button-primary(type='submit' value='Log in')
+

@@ -58,7 +58,7 @@ router.get('/:verificationUUID', async (req, res) => {
     const dbEntry = await model.PendingEmailConfirmations.findByPk(req.params.verificationUUID);
 
     if (dbEntry) {
-        if (Date.now() - 1000*60*10 > Date.parse(dbEntry.createdAt)) {
+        if (dbEntry.isExpired(10)) {
             await dbEntry.destroy();
             return res.sendStatus(404);
         } else {
