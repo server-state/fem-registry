@@ -1,17 +1,21 @@
 extends layout
 
 block content
-    h1 Login
-    form(method='post')
-        label Email
-            br
-            input(name='username' type='email')
-        br
-        label Password
-            br
-            input(name='password' type='password')
-        br
-        input(type='submit' value='Log in')
-    if forgotPassword
-        p
-            a(href=forgotPassword) Forgot Password?
+    div.uk-child-width-1-2.uk-height-viewport(uk-grid, uk-height-viewport='offset-top: true')
+        div.uk-cover-container
+            img(src='/android-chrome-192x192.png', uk-cover)
+        div.uk-padding
+            h1 Login
+            form(method='post')
+                label.uk-form-label Email
+                    br
+                    input.uk-input(name='username' type='email')
+                br
+                label.uk-form-label Password
+                    br
+                    input.uk-input(name='password' type='password')
+                br
+                input.uk-margin-top.uk-button.uk-button-primary(type='submit' value='Log in')
+            if forgotPassword
+                p
+                    a(href=forgotPassword) Forgot Password?

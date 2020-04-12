@@ -1,12 +1,14 @@
-extends ../layout
+extends ./layout
 
-block content
-    h1 Review #{name} #{version}
+block append breadcrumbs
+    li
+        span #{cbm.name} #{release.version}
+
+block innercontent
+    h1 Review #{cbm.name} #{release.version}
     p by #{publisher.name} (
         a(href=`mailto:${publisher.email}`)=publisher.email
         | )
-    p
-        a(href="../../") Go back
     h2 CBM Data
     table
         tr

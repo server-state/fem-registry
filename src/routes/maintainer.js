@@ -131,8 +131,8 @@ router.get('/review/:id', requireAuthenticated, async (req, res) => {
         const images = await release.getImages();
 
         return res.render('maintainer/review', {
-            ...cbm,
-            ...release,
+            cbm,
+            release,
             images,
             prettyCode: release.prettyCode,
             publisher: {

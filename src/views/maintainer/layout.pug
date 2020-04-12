@@ -1,0 +1,13 @@
+extends ../layout
+
+block navbar-right
+    a.uk-navbar-item(href='/maintainer/logout/') Logout
+
+block content
+    div.uk-padding
+        ul.uk-breadcrumb
+            block breadcrumbs
+                li
+                    a(href='/maintainer/') Maintainer Area
+        block innercontent
+

@@ -1,21 +1,31 @@
-extends ../layout
+extends ./layout
 
-block content
-    h1 Maintainer Area
+block breadcrumbs
+    li
+        span Maintainer Area
+
+block innercontent
+    //h1 Maintainer Area
     p Hi, #{name}
-        |
-        a(href="./logout/") Log out...
-    h3 Pending Reviews
-    ul#pending
-        each review in pendingReviews
-            li
-                a(href=`./review/${review.id}/`) #{review.publisher}: #{review.cbm.name} #{review.version}
-        else
-            p n/a
-    h3 Past Reviews
-    ul#past
-        each review in pastReviews
-            li
-                a(href=`./review/${review.id}/`) #{review.status === 2 ? 'REJECTED' : 'APPROVED'} on #{review.status_at}: #{review.cbm.name} #{review.version}
-        else
-            p n/a
+    .uk-grid.uk-child-width-expand.uk-grid-match(uk-grid)
+        div
+            .uk-card.uk-card-default.uk-card-body
+                h3.uk-card-title Pending Reviews
+                ul#pending
+                    each review in pendingReviews
+                        li
+                            a(href=`./review/${review.id}/`) #{review.publisher}: #{review.cbm.name} #{review.version}
+                    else
+                        p n/a
+        div
+            .uk-card.uk-card-default.uk-card-body
+                h3.uk-card-title Recent Reviews
+                ul#past
+                    each review in pastReviews
+                        li
+                            a(href=`./review/${review.id}/`)
+                                | #{review.cbm.name} #{review.version}
+                                |
+                                span.uk-label(class=(review.status === 2 ? 'uk-label-danger' : 'uk-label-success')) #{review.status === 2 ? 'REJECTED' : 'APPROVED'}
+                    else
+                        p n/a
