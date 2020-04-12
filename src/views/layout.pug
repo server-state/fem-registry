@@ -15,9 +15,21 @@ html
   body
     nav.uk-navbar-container(uk-navbar)
       .uk-navbar-left
-        a.uk-navbar-item.uk-logo(href='/') CBM Registry
+        a.uk-navbar-item.uk-logo(href='/')
+          img(src='/android-chrome-192x192.png', height=64, width=64)
+        ul.uk-navbar-nav
+          li
+            a(href='/docs/') Documentation
+          li
+            a(href='/support/') Support
+          li
+            a(href='/legal-notice/') Legal Notice
+          li
+            a(href='/privacy-policy/') Privacy Policy
       .uk-navbar-right
         block navbar-right
+          .uk-navbar-item
+            a.uk-button.uk-button-primary(href='/dev/') Developer Portal
     block content
 
     script(src='/js/uikit.min.js')

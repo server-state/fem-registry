@@ -10,6 +10,9 @@ block innercontent
     .uk-grid.uk-child-width-expand.uk-grid-match(uk-grid)
         div
             .uk-card.uk-card-default.uk-card-body
+                if (pendingReviews.length > 0)
+                    .uk-card-badge.uk-label #{pendingReviews.length}
+
                 h3.uk-card-title Pending Reviews
                 ul#pending
                     each review in pendingReviews

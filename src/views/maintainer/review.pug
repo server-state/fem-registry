@@ -9,63 +9,74 @@ block innercontent
     p by #{publisher.name} (
         a(href=`mailto:${publisher.email}`)=publisher.email
         | )
-    h2 CBM Data
-    table
-        tr
-            th Name
-            td=name
-        tr
-            th Support URL
-            td
-                a(href=support_url)=support_url
-        tr
-            th Website
-            td
-                if (repo_url)
-                    a(href=website)=website
+
+    .uk-grid.uk-child-width-expand.uk-grid-match(uk-grid)
+        div
+            .uk-card.uk-card-body.uk-card-default
+                h2.uk-card-title CBM Data
+                table.uk-table.uk-table-striped.uk-table-small
+                    tr
+                        th Name
+                        td=cbm.name
+                    tr
+                        th Support URL
+                        td
+                            a(href=cbm.support_url)=cbm.support_url
+                    tr
+                        th Website
+                        td
+                            if (cbm.website)
+                                a(href=cbm.website)=cbm.website
+                            else
+                                | n/a
+                    tr
+                        th Repository / Source Code
+                        td
+                            if (cbm.repo_url)
+                                a(href=cbm.repo_url)=cbm.repo_url
+                            else
+                                | n/a
+        div
+            .uk-card.uk-card-body.uk-card-default
+                h2.uk-card-title Release
+                h3 Version
+                pre=release.version
+                h3 Description
+                pre=release.description
+                h3 Release Notes
+                pre=release.release_notes
+                h3 Images
+                ul
+                each image in images
+                    li
+                        img(src=`/api/image/${image.id}` alt=image.alt)
                 else
-                    | n/a
-        tr
-            th Repository / Source Code
-            td
-                if (repo_url)
-                    a(href=repo_url)=repo_url
-                else
-                    | n/a
-    h2 Release
-    h3 Version
-    pre=version
-    h3 Description
-    pre=description
-    h3 Release Notes
-    pre=release_notes
-    h3 Images
-    ul
-    each image in images
-        li
-            img(src=`/api/image/${image.id}` alt=image.alt)
-    else
-        p n/a
-    h3 Code
-    pre
-        code=prettyCode
+                    p n/a
+
+    .uk-card.uk-card-default.uk-card-body.uk-margin
+        h3.uk-card-title Code
+        pre
+            code=prettyCode
 
     h2 Review
     p Review here:
     form(method="post")
-        fieldset
-            label
-                input(name="result" type="radio" value="approve")
+        fieldset.uk-fieldset
+            label.uk-form-label
+                input.uk-radio(name="result" type="radio" value="approve")
+                | &nbsp;
                 | Approve
-            label
-                input(name="result" type="radio" value="reject")
+            | &nbsp;&nbsp;&nbsp;
+            label.uk-form-label.uk-margin
+                input.uk-radio(name="result" type="radio" value="reject")
+                | &nbsp;
                 | Reject
         br
-        label
+        label.uk-form-label
             | Comment (e.g., reason for rejection)
             br
-            textarea(name="reason")
+            textarea.uk-textarea(name="reason")
         br
-        input(type='submit')
+        input.uk-margin.uk-button.uk-button-primary(type='submit')
 
 
