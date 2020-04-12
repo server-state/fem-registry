@@ -1,13 +1,17 @@
-extends ../../layout
+extends ../layout
 
-block content
+block append breadcrumbs
+    li
+        span Profile
+
+block innercontent
     h1 Profile
     h3 Name
-    p=name
+    p=publisher.name
     p
         a(href='./edit/') Edit
     h3 Email
-    p=email
+    p=publisher.email
     p
         a(href='./change-email/') Change Email
     h3 Password

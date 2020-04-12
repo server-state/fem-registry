@@ -1,12 +1,13 @@
-extends ../layout
+extends ./layout
 
-block content
-    h1 Developer Area
+block breadcrumbs
+    li
+        span Developer Portal
+
+block innercontent
     p Hi,
         span=" "
         a(href='./profile/')=name
-        span=" "
-        a(href="./logout/") Log out...
 
     h2 CBMs
     a(href="./cbm/new/") Create new CBM

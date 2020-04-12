@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    h1=title
-    p=message
-    if next
-        p
-            a(href=next.url)=next.label
+    .uk-padding
+        h1=title
+        p=message
+        if next
+            p
+                a(href=next.url)=next.label

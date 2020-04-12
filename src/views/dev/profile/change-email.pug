@@ -1,6 +1,12 @@
-extends ../../layout
+extends ../layout
 
-block content
+block append breadcrumbs
+    li
+        a(href='/dev/profile/') Profile
+    li
+        span Change Email
+
+block innercontent
     h1 Change Email
     p After submitting, you'll need to verify the new email address after saving.
     if error
@@ -8,7 +14,7 @@ block content
 
     form(method='post')
         p
-            label New Email Address
-                input(type='email' name='email' required)
-        input(type='submit' value='Change email')
+            label.uk-form-label New Email Address
+                input.uk-input(type='email' name='email' required)
+        input.uk-button.uk-button-primary(type='submit' value='Change email')
 

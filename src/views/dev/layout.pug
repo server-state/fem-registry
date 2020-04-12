@@ -1,0 +1,13 @@
+extends ../layout
+
+block navbar-right
+    a.uk-navbar-item(href='/dev/logout/') Logout
+
+block content
+    div.uk-padding
+        ul.uk-breadcrumb
+            block breadcrumbs
+                li
+                    a(href='/dev/') Developer Portal
+        block innercontent
+

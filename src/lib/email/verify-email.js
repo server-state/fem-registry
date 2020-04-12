@@ -1,8 +1,9 @@
 const email = require('./_config'); // An email object
+const URL = require('url').URL;
 
 /**
  * Sends a promise for the specified `user` to the new `newEmail` email address in order to verify this email.
- * 
+ *
  * Can get used for changing an existing user's email address or for verifying newly registered users
  * @param {import('../../model/Publisher')} user
  * @param {string} newEmail

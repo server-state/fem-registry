@@ -30,7 +30,6 @@ router.post('/',
         res.render('dev/profile/change-password', {error: error.join(', ')});
     } else {
         await req['user'].setPassword(req.body['new1']);
-        await req['user'].save();
         res.redirect('..');
     }
 });

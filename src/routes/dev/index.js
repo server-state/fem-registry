@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const cbmRouter = require('./cbm/cbm');
 const profileRouter = require('./profile/profile');
-const Publisher = require('../../model/Publisher');
+const model = require('../../model');
 const passport = new (require('passport').Passport)();
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
-    Publisher.authenticate
+    model.Publisher.authenticate
 ));
 
 passport.serializeUser((user, done) => {
@@ -17,7 +17,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (user, done) => {
     if (!user.publisherId)
         return done(null, null); // logged in as a maintainer => not a publisher
-    return done(null, await Publisher.get(user.publisherId))
+    return done(null, await model.Publisher.findByPk(user.publisherId))
 });
 
 router.use(passport.initialize());
@@ -67,9 +67,9 @@ router.get('/', requireAuthenticated,
         });
     });
 
-router.use('/forgot-password', require('./password-reset'));
+// router.use('/forgot-password', require('./password-reset'));
 
-router.use('/cbm', requireAuthenticated, cbmRouter);
+// router.use('/cbm', requireAuthenticated, cbmRouter);
 router.use('/profile', requireAuthenticated, profileRouter);
 
 module.exports = router;

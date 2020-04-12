@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             primaryKey: true
         },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     });
 
     PendingEmailConfirmations.associate = (models) => {

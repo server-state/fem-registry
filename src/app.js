@@ -8,7 +8,7 @@ const sassMiddleware = require('node-sass-middleware');
 const trailingSlash = require('trailing-slash');
 
 const indexRouter = require('./routes');
-// const devRouter = require('./routes/dev');
+const devRouter = require('./routes/dev');
 // const apiRouter = require('./routes/api');
 const maintainerRouter = require('./routes/maintainer');
 
@@ -32,7 +32,7 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
-// app.use('/dev/', trailingSlash({slash: true}), devRouter);
+app.use('/dev/', trailingSlash({slash: true}), devRouter);
 // app.use('/api', apiRouter);
 app.use('/maintainer/', trailingSlash({slash: true}), maintainerRouter);
 
