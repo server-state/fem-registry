@@ -9,3 +9,6 @@ cypress/videos
 .vscode
 
 config/config.json
+
+/image-store/*/**
+!/image-store/cbmId/
