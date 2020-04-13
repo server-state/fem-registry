@@ -8,22 +8,37 @@ block append breadcrumbs
 
 block innercontent
     h1=`${release.name} ${release.version}`
-    img(src=(release.logoUrl || ''))
-    h2 Metadata
-    h3 Name
-    p=cbm.name
-    h3 Support URL
-    p
-        a(href=release.support_url)=release.support_url
-    h3 Website
-    p
-        if release.website
-            a(href=release.website)=release.website
-        else
-            | n/a
-    h3 Code Repository
-    p
-        if release.repo_url
-            a(href=release.repo_url)=release.repo_url
-        else
-            | n/a
+
+    .div(uk-grid).uk-grid-match
+        div(class="uk-width-1-2@m")
+            div(uk-card).uk-card-body.uk-card-default
+                h2.uk-card-title Metadata
+                h3 Name
+                p=cbm.name
+                h3 Support URL
+                p
+                    a(href=release.support_url)=release.support_url
+                h3 Website
+                p
+                    if release.website
+                        a(href=release.website)=release.website
+                    else
+                        | n/a
+                h3 Code Repository
+                p
+                    if release.repo_url
+                        a(href=release.repo_url)=release.repo_url
+                    else
+                        | n/a
+        div(class="uk-width-1-2@m")
+            div(uk-card).uk-card-body.uk-card-default
+                h2.uk-card-title Images
+                h3 Logo
+                img(src=(release.logoUrl || '') width=96)
+                h3 Screenshots
+                div(uk-slider)
+                    .uk-position-relative.uk-visible-toggle.uk-light
+                        ul.uk-slider-items
+                            each image in release.imageUrls
+                                img(src=image)
+                    ul.uk-dotnav.uk-flex-center.uk-margin.uk-slider-nav

@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             if (fs.existsSync(folder)) {
                 return fs.readdirSync(folder).filter(v => {
                     return v.endsWith('.png') || v.endsWith('.svg') || v.endsWith('.jpg')
-                }).map(v => `/images/${this.CBMId}/${this.id}/${v}`);
+                }).map(v => `/images/${this.CBMId}/${this.id}/screenshots/${v}`);
             } else {
                 return [];
             }

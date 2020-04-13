@@ -7,6 +7,9 @@ block append breadcrumbs
 block innercontent
     - let verbs = ['pending review', 'approved', 'rejected'];
     h1=cbm.name
+    h4 ID:
+    pre
+        code=cbm.id
     p
         if latest
             p Released at #{latest.version} (
