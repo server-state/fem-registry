@@ -98,7 +98,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             onDelete: 'CASCADE'
         })
-        models.Release.hasMany(models.Image)
     }
 
     return Release;

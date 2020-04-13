@@ -131,7 +131,7 @@ router.get('/review/:id', requireAuthenticated, async (req, res) => {
         const release = await model.Release.findByPk(req.params.id);
         const cbm = await release.getCBM();
         const publisher = await cbm.getPublisher();
-        const images = await release.getImages();
+        const images = await release.imageUrls;
 
         return res.render('maintainer/review', {
             cbm,

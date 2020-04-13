@@ -26,16 +26,16 @@ const constantLabels = {
     passwordResetLinkExpiryAfterMinutes: 'After how many minutes should the verification link for resetting the password expire?',
 }
 
-async function confirm(question) {
-    return (await qu.prompt([{name: 'cf', message: question, type: 'confirm'}]))['cf'];
+async function confirm(question, config) {
+    return (await qu.prompt([{name: 'cf', message: question, type: 'confirm', ...config}]))['cf'];
 }
 
-async function prompt(label, validate = () => true) {
-    return (await qu.prompt([{name: 'v', message: label, type: 'input', validate}]))['v'];
+async function prompt(label, validate = () => true, config) {
+    return (await qu.prompt([{name: 'v', message: label, type: 'input', validate, ...config}]))['v'];
 }
 
-async function choice(name, options) {
-    return (await qu.prompt([{name: 'choice', type: 'list', choices: options, message: name}]))['choice'];
+async function choice(name, options, config) {
+    return (await qu.prompt([{name: 'choice', type: 'list', choices: options, message: name, ...config}]))['choice'];
 }
 
 async function run() {
@@ -74,12 +74,16 @@ async function dbSetup() {
         {name: 'PostgreSQL', value: 'postgres'},
     ]);
 
-    if (config.db['dialect'] === 'sqlite') {
-        config.db['storage'] = await prompt('Where is the .sqlite file located?', v => {
-            path.isAbsolute(path.resolve(process.cwd(), v));
-        })
-    } else {
-        do {
+    do {
+        if (config.db['dialect'] === 'sqlite') {
+            config.db['storage'] = path.resolve(process.cwd(),
+                await prompt('Where is the .sqlite file located?', v => {
+                    return path.isAbsolute(path.resolve(process.cwd(), v));
+                }, {
+                    default: path.join(__dirname, '..', 'db', 'db.sqlite'),
+                })
+            );
+        } else {
             const connDetails = await qu.prompt(
                 [
                     {name: 'host', message: 'Host', type: 'input'},
@@ -91,14 +95,15 @@ async function dbSetup() {
 
             config.db = {
                 ...config.db,
-                ...connDetails
+                ...connDetails,
+                logging: false
             }
-        } while (!await canConnect(config.db));
+        }
+    } while (!await canConnect(config.db));
 
-        console.log(ch.green('Connection Successful.'));
+    console.log(ch.green('Connection Successful.'));
 
-        return await emailSetup();
-    }
+    return await emailSetup();
 }
 
 /**
