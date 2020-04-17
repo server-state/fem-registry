@@ -1,6 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const path = require('path');
-const fs = require('fs');
+const { Sequelize } = require('sequelize');
 
 const config = process.env.NODE_ENV === 'production' ? require('../config/config.json').db : {
     dialect: 'sqlite',

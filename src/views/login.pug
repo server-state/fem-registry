@@ -3,9 +3,10 @@ extends auth-layout
 block auth
     h1 Login
 
-    p Don't have an account yet?
-        | &nbsp;
-        a(href='../sign-up/') Sign up for free
+    if (signUp)
+        p Don't have an account yet?
+            | &nbsp;
+            a(href='../sign-up/') Sign up for free
 
     if (error && error.length > 0)
         .uk-alert-danger(uk-alert)=error

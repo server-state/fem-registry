@@ -36,7 +36,7 @@ function requireAuthenticated(req, res, next) {
 
 router.get('/login/', ((req, res) => {
     req.logOut();
-    return res.render('login', {forgotPassword: '../forgot-password/', error: req.flash('error')});
+    return res.render('login', {forgotPassword: '../forgot-password/', error: req.flash('error'), signUp: true});
 }));
 
 router.post('/login', passport.authenticate('local', {
