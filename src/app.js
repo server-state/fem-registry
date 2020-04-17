@@ -1,3 +1,4 @@
+//region Imports
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -11,9 +12,10 @@ const indexRouter = require('./routes');
 const devRouter = require('./routes/dev');
 // const apiRouter = require('./routes/api');
 const maintainerRouter = require('./routes/maintainer');
-
 const db = require('../db/conn');
+//endregion
 
+//region Basic Setup
 const app = express();
 
 // view engine setup
@@ -43,14 +45,21 @@ app.use(sassMiddleware({
     debug: true,
     sourceMap: true
 }));
+//endregion
+
+//region Statically served stuff
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/images', express.static(path.join(__dirname, '../image-store')));
+//endregion
 
+//region Routers
 app.use('/', indexRouter);
 app.use('/dev/', trailingSlash({slash: true}), devRouter);
 // app.use('/api', apiRouter);
 app.use('/maintainer/', trailingSlash({slash: true}), maintainerRouter);
+//endregion
 
+//region Error Handling
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));
@@ -73,6 +82,7 @@ app.use(
         res.status(err.status || 500);
         res.render('error');
     });
+//endregion
 
 
 module.exports = app;
