@@ -28,7 +28,11 @@ router.use((req, res, next) => {
     } else {
         next();
     }
-})
+});
+
+router.use('/', express.static(docsFolder, {
+
+}))
 
 /* GET home page. */
 router.get('/', function (req, res) {
