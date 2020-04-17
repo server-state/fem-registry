@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    div(uk-grid)
+        nav.uk-padding
+            include _includes/docs-sidebar-links
+
+        main.uk-padding.uk-width-expand!=content

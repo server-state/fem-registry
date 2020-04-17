@@ -1,0 +1,14 @@
+mixin navitem(items)
+    ul.uk-nav-sub
+        each link, label in items
+                if typeof link === 'string'
+                    li
+                        a(href=`./${link}`)=label
+                else
+                    li.uk-nav-parent
+                        span=label
+                        +navitem(link)
+
+ul.uk-nav
+    + navitem(sidebar)
+

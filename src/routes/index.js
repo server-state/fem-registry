@@ -14,4 +14,6 @@ router.get('/privacy-policy', ((req, res) => {
   res.render('static/privacy-policy');
 }))
 
+router.use('/docs', require('./documentation'));
+
 module.exports = router;
