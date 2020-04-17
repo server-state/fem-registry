@@ -11,3 +11,6 @@ The structure is as follows:
 
 Additionally, there is the `./cbmId/releaseId` folder, which contains a placeholder `logo.png` file for releases 
 without a logo (this ensures consistency in the URLs of these images, even if it doesn't exist).
+
+### Accessibility via HTTPS
+The `image-store` folder gets served via HTTP as `/images/`.

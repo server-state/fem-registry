@@ -9,6 +9,10 @@
     "example-data:setup": "node ./db/example-data/setup-example-data.js",
     "example-data:teardown": "node ./db/example-data/teardown-example-data.js"
   },
+  "nodemonConfig": {
+    "colours": true,
+    "ext": "js json pug scss"
+  },
   "dependencies": {
     "@types/js-beautify": "^1.8.1",
     "bcryptjs": "^2.4.3",

@@ -42,6 +42,8 @@ block innercontent
         div
             .uk-card.uk-card-body.uk-card-default
                 h2.uk-card-title Release
+                h3 Logo
+                img(uk-img data-src=`${release.logoUrl}` width=128)
                 h3 Version
                 pre=release.version
                 h3 Description
@@ -52,7 +54,7 @@ block innercontent
                 ul
                 each image in images
                     li
-                        img(src=`/api/image/${image.id}` alt=image.alt)
+                        img(src=image alt=image.alt)
                 else
                     p n/a
 
