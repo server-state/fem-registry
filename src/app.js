@@ -10,7 +10,7 @@ const trailingSlash = require('trailing-slash');
 
 const indexRouter = require('./routes');
 const devRouter = require('./routes/dev');
-// const apiRouter = require('./routes/api');
+const apiRouter = require('./routes/api');
 const maintainerRouter = require('./routes/maintainer');
 const db = require('../db/conn');
 //endregion
@@ -55,7 +55,7 @@ app.use('/images', express.static(path.join(__dirname, '../image-store')));
 //region Routers
 app.use('/', indexRouter);
 app.use('/dev/', trailingSlash({slash: true}), devRouter);
-// app.use('/api', apiRouter);
+app.use('/api', apiRouter);
 app.use('/maintainer/', trailingSlash({slash: true}), maintainerRouter);
 //endregion
 

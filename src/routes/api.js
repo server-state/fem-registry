@@ -1,42 +1,67 @@
 const express = require('express');
 const router = express.Router();
-const CBM = require('../model/CBM');
-const Release = require('../model/Release');
-const Image = require('../model/Image');
+const model = require('../model');
+const {Op} = require('sequelize');
 
-router.use(function(req, res, next) {
+router.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 
-/* GET users listing. */
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
     return res.json({status: 'ok'})
 });
 
-router.get('/image/:id', async (req, res) => {
-    try {
-        console.log(req.params.id, Image, Image.get);
-        const i = await Image.get(Number.parseInt(req.params.id));
-        res.contentType(i['mime_type']);
-        res.send(i['data']) // Image data
-    } catch (e) {
-        res.sendStatus(404);
-    }
-});
-
 /**
- * Returns cbm ids, optionally filtered by the search query with the `q` GET parameter, ordered by popularity
+ * Returns cbm release data, optionally filtered by the search query with the `q` GET parameter, TODO: ordered by popularity
  */
 router.get('/cbm', async (req, res) => {
     try {
         const query = req.query['q'] || ''; // /api/plugins?q=My+Plugin
         const page = req.query['p'] || 1; // /api/plugins?q=My+Plugin
 
-        const result = await CBM.search(query, page);
+        const ids = await model.Release.findAll({
+            attributes: [[model.sequelize.constructor.fn('max', model.sequelize.constructor.col('id')), 'id']],
+            limit: 16,
+            offset: 16 * (page - 1),
+            group: 'CBMId',
+            where: {
+                status: 1,
+                [Op.or]: [
+                    {name: {[Op.substring]: query}},
+                    {description: {[Op.substring]: query}}
+                ]
+            },
+            raw: true
+        });
 
-        return res.json(result.map(value => value['cbm_id']));
+        const raw = (await model.Release.findAll({
+            where: {id: ids.map(obj => obj.id)},
+            include: [{
+                model: model.CBM, attributes: ['id'], include: [
+                    {
+                        model: model.Publisher,
+                        attributes: ['name']
+                    }
+                ]
+            }]
+        }));
+
+        return res.json(raw.map(release => ({
+            ...JSON.parse(JSON.stringify(release)),
+            CBM: undefined,
+            status: undefined,
+            code: undefined,
+            createdAt: undefined,
+            id: release.CBMId,
+            CBMId: undefined,
+            status_by: undefined,
+            status_at: undefined,
+            logo: release.logoUrl,
+            images: release.imageUrls,
+            publisher: release.CBM.Publisher.name
+        })));
     } catch (e) {
         console.error(e);
         return res.sendStatus(500);
@@ -45,15 +70,20 @@ router.get('/cbm', async (req, res) => {
 
 router.get('/cbm/:id', async (req, res) => {
     try {
-        const cbm = await CBM.get(1);
+        const cbm = await model.CBM.findByPk(req.params.id);
         const release = await cbm.getLatestApprovedRelease();
-        const images = await release.getImages();
-        const publisher = await cbm.getPublisher();
         return res.json({
-            ...cbm,
-            release,
-            images,
-            publisher: {name: publisher.name}
+            ...JSON.parse(JSON.stringify(release)),
+            status: undefined,
+            code: undefined,
+            createdAt: undefined,
+            cbmId: release.CBMId,
+            CBMId: undefined,
+            status_by: undefined,
+            status_at: undefined,
+            logo: release.logoUrl,
+            images: release.imageUrls,
+            publisher: (await cbm.getPublisher()).name
         });
     } catch (e) {
         console.warn(e);
@@ -61,15 +91,24 @@ router.get('/cbm/:id', async (req, res) => {
     }
 });
 
-router.get('/releases/:id', async (req, res) => {
+router.get('/cbm/:id/download', async (req, res) => {
     try {
-        const release = await Release.get(Number.parseInt(req.params.id));
-        if (release.isApproved()) {
-            return res.json(release);
-        } else {
-            return res.sendStatus(400);
-        }
+        const cbm = await model.CBM.findByPk(req.params.id);
+        const release = await cbm.getLatestApprovedRelease();
+        return res.json({
+            ...JSON.parse(JSON.stringify(release)),
+            status: undefined,
+            createdAt: undefined,
+            cbmId: release.CBMId,
+            CBMId: undefined,
+            status_by: undefined,
+            status_at: undefined,
+            logo: release.logoUrl,
+            images: release.imageUrls,
+            publisher: (await cbm.getPublisher()).name
+        });
     } catch (e) {
+        console.warn(e);
         return res.sendStatus(404);
     }
 });

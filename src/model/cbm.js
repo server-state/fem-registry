@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
                 where: {
                     status: 1
                 },
-                order: ['id']
+                order: [['id', 'DESC']]
             });
 
             return releases[0] || null;

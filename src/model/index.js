@@ -55,6 +55,26 @@ db.sequelize.sync().then(async () => {
             support_url: 'httpjfwoejf'
         });
         await release.setCBM(cbm);
+
+        const release2 = await db.Release.create({
+            name: 'Table CBM',
+            version: 'v1.0.1',
+            code: 'export default () => true',
+            support_url: 'httpjfwoejf',
+            status: 1,
+            status_by: maintainer.id
+        });
+        await release2.setCBM(cbm);
+
+        const release3 = await db.Release.create({
+            name: 'Table CBM',
+            version: 'v1.0.1',
+            code: 'export default () => true',
+            support_url: 'httpjfwoejf',
+            status: 1,
+            status_by: maintainer.id
+        });
+        await release3.setCBM(cbm);
     }
 });
 
