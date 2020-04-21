@@ -6,7 +6,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-
       - uses: actions/setup-node@v1
         with:
           node-version: '10.x'
@@ -15,12 +14,12 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
-          uses: cypress-io/github-action@v1
-          with:
-            record: true
-            start: npm run test:start
-            wait-on: 'http://localhost:3000'
-          env:
-            # pass the Dashboard record key as an environment variable
-            CYPRESS_RECORD_KEY: ${{ secrets.cypress_token }}
-            GITHUB_TOKEN: ${{ secrets.gh_token }}
+        uses: cypress-io/github-action@v1
+        with:
+          record: true
+          start: npm run test:start
+          wait-on: 'http://localhost:3000'
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.cypress_token }}
+          GITHUB_TOKEN: ${{ secrets.gh_token }}
