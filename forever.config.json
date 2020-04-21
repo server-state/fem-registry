@@ -1,5 +1,5 @@
 {
-  "uid": "cbm-registry",
+  "uid": "fem-registry",
   "append": true,
   "watch": true,
   "sourceDir": ".",

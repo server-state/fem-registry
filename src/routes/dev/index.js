@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cbmRouter = require('./cbm/cbm');
+const femRouter = require('./fem/fem');
 const profileRouter = require('./profile/profile');
 const model = require('../../model');
 const passport = new (require('passport').Passport)();
@@ -63,17 +63,17 @@ router.get('/', requireAuthenticated,
      * @returns {Promise<void>}
      */
     async function (req, res) {
-        const cbms = await req['user'].getCBMs();
+        const fems = await req['user'].getFEMs();
         res.render('dev/index', {
             name: req['user'].name,
-            cbms
+            fems
         });
     });
 
 router.use('/forgot-password', require('./password-reset'));
 router.use('/sign-up', require('./sign-up'));
 
-router.use('/cbm', requireAuthenticated, cbmRouter);
+router.use('/fem', requireAuthenticated, femRouter);
 router.use('/profile', requireAuthenticated, profileRouter);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 [
   {
-    "name": "A very cool CBM",
+    "name": "A very cool FEM",
     "version": "v0.9.0",
-    "cbm_id": 1,
+    "fem_id": 1,
     "status": 2,
     "status_by": 1,
     "status_at": 157901880000,
@@ -12,33 +12,33 @@
     "repo_url": null
   },
   {
-    "name": "A very cool CBM",
+    "name": "A very cool FEM",
     "version": "v0.9.0",
-    "cbm_id": 1,
+    "fem_id": 1,
     "status": 1,
     "status_by": 1,
     "status_at": 1579018858395,
-    "code": "\"use strict\";function e(e){return e&&\"object\"==typeof e&&\"default\"in e?e.default:e}var t=e(require(\"react\")),r=e(require(\"prop-types\")),a=require(\"@material-ui/core\");function n(e){return t.createElement(\"div\",null,t.createElement(a.Typography,null,\"My CBM module!\"),t.createElement(a.Typography,null,\"Data: \",JSON.stringify(e.data,null,2)))}n.propTypes={data:r.any.isRequired};var i={component:n,info:{name:\"my simple CBM\",version:\"v0.0.9\",description:\"This is a template CBM\",about:\"server-state\"}};module.exports=i;",
+    "code": "\"use strict\";function e(e){return e&&\"object\"==typeof e&&\"default\"in e?e.default:e}var t=e(require(\"react\")),r=e(require(\"prop-types\")),a=require(\"@material-ui/core\");function n(e){return t.createElement(\"div\",null,t.createElement(a.Typography,null,\"My FEM module!\"),t.createElement(a.Typography,null,\"Data: \",JSON.stringify(e.data,null,2)))}n.propTypes={data:r.any.isRequired};var i={component:n,info:{name:\"my simple FEM\",version:\"v0.0.9\",description:\"This is a template FEM\",about:\"server-state\"}};module.exports=i;",
     "support_url": "mailto:cockpit@fliegwerk.com",
     "website": "https://www.fliegwerk.com",
     "repo_url": null
   },
   {
-    "name": "A very cool CBM",
+    "name": "A very cool FEM",
     "version": "v0.10.0",
-    "cbm_id": 1,
-    "code": "\"use strict\";function e(e){return e&&\"object\"==typeof e&&\"default\"in e?e.default:e}var t=e(require(\"react\")),r=e(require(\"prop-types\")),a=require(\"@material-ui/core\");function n(e){return t.createElement(\"div\",null,t.createElement(a.Typography,null,\"My CBM module!\"),t.createElement(a.Typography,null,\"Data: \",JSON.stringify(e.data,null,2)))}n.propTypes={data:r.any.isRequired};var i={component:n,info:{name:\"my simple CBM\",version:\"v0.0.9\",description:\"This is a template CBM\",about:\"server-state\"}};module.exports=i;",
+    "fem_id": 1,
+    "code": "\"use strict\";function e(e){return e&&\"object\"==typeof e&&\"default\"in e?e.default:e}var t=e(require(\"react\")),r=e(require(\"prop-types\")),a=require(\"@material-ui/core\");function n(e){return t.createElement(\"div\",null,t.createElement(a.Typography,null,\"My FEM module!\"),t.createElement(a.Typography,null,\"Data: \",JSON.stringify(e.data,null,2)))}n.propTypes={data:r.any.isRequired};var i={component:n,info:{name:\"my simple FEM\",version:\"v0.0.9\",description:\"This is a template FEM\",about:\"server-state\"}};module.exports=i;",
     "status": 0,
     "support_url": "mailto:cockpit@fliegwerk.com",
     "website": "https://www.fliegwerk.com",
     "repo_url": null
   },
   {
-    "name": "One last example CBM",
+    "name": "One last example FEM",
     "version": "0.1.0",
-    "cbm_id": 3,
+    "fem_id": 3,
     "status": 0,
-    "code": "\"use strict\";function e(e){return e&&\"object\"==typeof e&&\"default\"in e?e.default:e}var t=e(require(\"react\")),r=e(require(\"prop-types\")),a=require(\"@material-ui/core\");function n(e){return t.createElement(\"div\",null,t.createElement(a.Typography,null,\"My CBM module!\"),t.createElement(a.Typography,null,\"Data: \",JSON.stringify(e.data,null,2)))}n.propTypes={data:r.any.isRequired};var i={component:n,info:{name:\"my simple CBM\",version:\"v0.0.9\",description:\"This is a template CBM\",about:\"server-state\"}};module.exports=i;",
+    "code": "\"use strict\";function e(e){return e&&\"object\"==typeof e&&\"default\"in e?e.default:e}var t=e(require(\"react\")),r=e(require(\"prop-types\")),a=require(\"@material-ui/core\");function n(e){return t.createElement(\"div\",null,t.createElement(a.Typography,null,\"My FEM module!\"),t.createElement(a.Typography,null,\"Data: \",JSON.stringify(e.data,null,2)))}n.propTypes={data:r.any.isRequired};var i={component:n,info:{name:\"my simple FEM\",version:\"v0.0.9\",description:\"This is a template FEM\",about:\"server-state\"}};module.exports=i;",
     "support_url": "https://example.com",
     "website": null,
     "repo_url": null

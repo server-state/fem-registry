@@ -39,7 +39,7 @@ async function choice(name, options, config) {
 }
 
 async function run() {
-    console.log(`Welcome to the interactive setup for the CBM-Registry. ${ch.green(`Let's go!`)}`)
+    console.log(`Welcome to the interactive setup for the FEM-Registry. ${ch.green(`Let's go!`)}`)
 
     if (fs.existsSync(configFile)) {
         if (!await confirm(ch.yellow(

@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Server State CBM Registry' });
+  res.render('index', { title: 'Server State FEM Registry' });
 });
 
 router.get('/legal-notice', ((req, res) => {

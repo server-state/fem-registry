@@ -6,7 +6,7 @@ const basename = path.basename(__filename);
 const env = process.env['NODE_ENV'] || 'development';
 
 /**
- * @type {{CBM, Maintainer, PendingEmailConfirmations, Publisher, Release}}
+ * @type {{FEM, Maintainer, PendingEmailConfirmations, Publisher, Release}}
  */
 const db = {};
 
@@ -44,37 +44,37 @@ db.sequelize.sync().then(async () => {
         publisher.password = maintainer.password;
         await publisher.save();
 
-        const cbm = new db.CBM({id: '105d0ba4-55d0-4724-871b-c39483923769', name: 'Test CBM', PublisherId: publisher.id});
-        cbm.name = 'Table CBM';
-        await cbm.save();
+        const fem = new db.FEM({id: '105d0ba4-55d0-4724-871b-c39483923769', name: 'Test FEM', PublisherId: publisher.id});
+        fem.name = 'Table FEM';
+        await fem.save();
 
         const release = await db.Release.create({
-            name: 'Table CBM',
+            name: 'Table FEM',
             version: 'v1.0.0',
             code: 'export default () => true',
             support_url: 'httpjfwoejf'
         });
-        await release.setCBM(cbm);
+        await release.setFEM(fem);
 
         const release2 = await db.Release.create({
-            name: 'Table CBM',
+            name: 'Table FEM',
             version: 'v1.0.1',
             code: 'export default () => true',
             support_url: 'httpjfwoejf',
             status: 1,
             status_by: maintainer.id
         });
-        await release2.setCBM(cbm);
+        await release2.setFEM(fem);
 
         const release3 = await db.Release.create({
-            name: 'Table CBM',
+            name: 'Table FEM',
             version: 'v1.0.1',
             code: 'export default () => true',
             support_url: 'httpjfwoejf',
             status: 1,
             status_by: maintainer.id
         });
-        await release3.setCBM(cbm);
+        await release3.setFEM(fem);
     }
 });
 

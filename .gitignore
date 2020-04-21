@@ -11,4 +11,4 @@ cypress/videos
 config/config.json
 
 /image-store/*/**
-!/image-store/cbmId/
+!/image-store/femId/

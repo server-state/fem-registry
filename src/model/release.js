@@ -31,24 +31,24 @@ module.exports = (sequelize, DataTypes) => {
         }
 
         get logoUrl() {
-            const folder = require('path').join(__dirname, '../../image-store', this.CBMId, this.id.toString());
-            // const folder = require('path').join(__dirname, '../../image-store', 'cbmId', 'releaseId');
+            const folder = require('path').join(__dirname, '../../image-store', this.FEMId, this.id.toString());
+            // const folder = require('path').join(__dirname, '../../image-store', 'femId', 'releaseId');
 
             if (fs.existsSync(folder)) {
                 let filename = (fs.readdirSync(folder).filter(f => f.startsWith('logo'))[0]);
-                return `/images/${this.CBMId}/${this.id}/${filename}`
+                return `/images/${this.FEMId}/${this.id}/${filename}`
             } else {
                 return null
             }
         }
 
         get imageUrls() {
-            const folder = require('path').join(__dirname, '../../image-store', this.CBMId, this.id.toString(), 'screenshots');
+            const folder = require('path').join(__dirname, '../../image-store', this.FEMId, this.id.toString(), 'screenshots');
 
             if (fs.existsSync(folder)) {
                 return fs.readdirSync(folder).filter(v => {
                     return v.endsWith('.png') || v.endsWith('.svg') || v.endsWith('.jpg')
-                }).map(v => `/images/${this.CBMId}/${this.id}/screenshots/${v}`);
+                }).map(v => `/images/${this.FEMId}/${this.id}/screenshots/${v}`);
             } else {
                 return [];
             }
@@ -92,7 +92,7 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: null
             }
         })
-        models.Release.belongsTo(models.CBM, {
+        models.Release.belongsTo(models.FEM, {
             foreignKey: {
                 allowNull: false
             },

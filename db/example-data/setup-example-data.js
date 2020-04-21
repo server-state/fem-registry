@@ -1,5 +1,5 @@
 const path = require('path');
-const cbms = require('./cbms.json');
+const fems = require('./fems.json');
 const images = require('./images.json');
 const maintainers = require('./maintainers.json');
 const publishers = require('./publishers.json');
@@ -14,7 +14,7 @@ async function setup() {
     if (fs.existsSync(dbLocation))
         fs.renameSync(dbLocation, backupLocation);
 
-    const CBM = require('../../src/model/CBM');
+    const FEM = require('../../src/model/FEM');
     const Image = require('../../src/model/Image');
     const Maintainer = require('../../src/model/Maintainer');
     const Publisher = require('../../src/model/Publisher');
@@ -40,11 +40,11 @@ async function setup() {
         await m.save();
     }
 
-    for (let cbm of cbms) {
-        const c = new CBM();
-        for (let key in cbm) {
-            if (cbm.hasOwnProperty(key))
-                c[key] = cbm[key]
+    for (let fem of fems) {
+        const c = new FEM();
+        for (let key in fem) {
+            if (fem.hasOwnProperty(key))
+                c[key] = fem[key]
         }
         await c.save();
     }

@@ -2,10 +2,10 @@ extends ./layout
 
 block append breadcrumbs
     li
-        span #{cbm.name} #{release.version}
+        span #{fem.name} #{release.version}
 
 block innercontent
-    h1 Review #{cbm.name} #{release.version}
+    h1 Review #{fem.name} #{release.version}
     p by #{publisher.name} (
         a(href=`mailto:${publisher.email}`)=publisher.email
         | )
@@ -13,11 +13,11 @@ block innercontent
     .uk-grid.uk-child-width-expand.uk-grid-match(uk-grid)
         div
             .uk-card.uk-card-body.uk-card-default
-                h2.uk-card-title CBM Data
+                h2.uk-card-title FEM Data
                 table.uk-table.uk-table-striped.uk-table-small
                     tr
                         th Project name (not public)
-                        td=cbm.name
+                        td=fem.name
                     tr
                         th Name
                         td=release.name

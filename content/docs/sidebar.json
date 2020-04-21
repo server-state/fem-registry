@@ -1,6 +1,6 @@
 {
   "Home": "index.md",
-  "CBM Development": {
+  "FEM Development": {
     "Getting started": "getting-started.md"
   },
   "Distribution": "distribution.md"

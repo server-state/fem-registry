@@ -9,12 +9,12 @@ block innercontent
         span=" "
         a(href='./profile/')=name
 
-    h2 CBMs
+    h2 FEMs
     nav
         ul.uk-list.uk-list-divider
-            each cbm in cbms
+            each fem in fems
                 li
-                    a(href=`./cbm/${cbm.id}/`)=cbm.name
+                    a(href=`./fem/${fem.id}/`)=fem.name
             else
                 p n/a
-    a.uk-button.uk-button-default(href="./cbm/new/") Create new CBM
+    a.uk-button.uk-button-default(href="./fem/new/") Create new FEM

@@ -47,34 +47,34 @@ router.get('/', requireAuthenticated,
             attributes: ['id', 'version'],
             include: [
                 {
-                    model: model.CBM
+                    model: model.FEM
                 },
             ]
         });
 
         const pastReviews = await req['user'].getReleases({
-            include: [ { model: model.CBM} ]
+            include: [ { model: model.FEM} ]
         });
 
         const pendingReviewData = await Promise.all(pendingReviews.map(async review => {
-            const publisher = await review.CBM.getPublisher();
+            const publisher = await review.FEM.getPublisher();
 
             return {
                 id: review.id,
                 version: review.version,
-                cbm: review.CBM,
+                fem: review.FEM,
                 publisher: publisher.name
             };
         }));
         const pastReviewData = await Promise.all(pastReviews.map(async review => {
-            const publisher = await review.CBM.getPublisher();
+            const publisher = await review.FEM.getPublisher();
 
             return {
                 id: review.id,
                 version: review.version,
                 status: review.status,
                 status_at: new Date(review.status_at).toLocaleString(),
-                cbm: review.CBM,
+                fem: review.FEM,
                 publisher: publisher.name
             };
         }));
@@ -126,12 +126,12 @@ router.post('/review/:id', requireAuthenticated,
 router.get('/review/:id', requireAuthenticated, async (req, res) => {
     try {
         const release = await model.Release.findByPk(req.params.id);
-        const cbm = await release.getCBM();
-        const publisher = await cbm.getPublisher();
+        const fem = await release.getFEM();
+        const publisher = await fem.getPublisher();
         const images = await release.imageUrls;
 
         return res.render('maintainer/review', {
-            cbm,
+            fem,
             release,
             images,
             prettyCode: release.prettyCode,

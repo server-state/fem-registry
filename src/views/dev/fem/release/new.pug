@@ -2,7 +2,7 @@ extends ../../layout
 
 block append breadcrumbs
     li
-        a(href='../../') #{cbm.name}
+        a(href='../../') #{fem.name}
     li
         span Submit New Version
 
@@ -13,10 +13,10 @@ block innercontent
         .uk-alert-danger(uk-alert)=error
     form(method='post' encType='multipart/form-data')
         h3 Required Fields
-        label.uk-form-label CBM file
+        label.uk-form-label FEM file
             .uk-margin
                 div(uk-form-custom='target: true')
-                    input(name='code' accept='.json, .cbm' multiple=false required type='file')
+                    input(name='code' accept='.json, .fem' multiple=false required type='file')
                     input.uk-input.uk-form-width-medium(disabled, placeholder='Select file')
                     button.uk-button.uk-button-default Select
 

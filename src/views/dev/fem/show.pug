@@ -2,14 +2,14 @@ extends ../layout
 
 block append breadcrumbs
     li
-        span #{cbm.name}
+        span #{fem.name}
 
 block innercontent
     - let verbs = ['pending review', 'approved', 'rejected'];
-    h1=cbm.name
+    h1=fem.name
     h4 ID:
     pre
-        code=cbm.id
+        code=fem.id
     p
         if latest
             p Released at #{latest.version} (

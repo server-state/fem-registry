@@ -19,7 +19,7 @@ router.param('release',
              */
             const release = await model.Release.findByPk(id);
 
-            if (req['cbm'].id === (await release.getCBM()).id) {
+            if (req['fem'].id === (await release.getFEM()).id) {
                 req.release = release;
                 return next();
             } else {
@@ -31,10 +31,10 @@ router.param('release',
     });
 
 router.get('/:release', async (req, res) => {
-    return res.render('dev/cbm/release/show', {
-        cbm: req['cbm'],
+    return res.render('dev/fem/release/show', {
+        fem: req['fem'],
         release: req['release'],
-        publisher: await (await req['release'].getCBM()).getPublisher()
+        publisher: await (await req['release'].getFEM()).getPublisher()
     });
 });
 

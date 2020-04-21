@@ -7,8 +7,8 @@ const model = require('../../../../model');
 const fileUploadMiddleware = require('express-fileupload');
 
 router.get('/', (req, res) => {
-    return res.render('dev/cbm/release/new', {
-        cbm: req['cbm'],
+    return res.render('dev/fem/release/new', {
+        fem: req['fem'],
         error: null
     });
 });
@@ -21,15 +21,15 @@ router.use(fileUploadMiddleware({
 router.post('/',
     /**
      *
-     * @param {express.Request & {cbm, files}} req
+     * @param {express.Request & {fem, files}} req
      * @param res
      * @returns {Promise<void>}
      */
     async (req, res) => {
         try {
-            // const release = await Release.createRelease(req.cbm, req.files.code, req.files.images, req.body.release_notes);
+            // const release = await Release.createRelease(req.fem, req.files.code, req.files.images, req.body.release_notes);
 
-            const cbmId = req.cbm.id;
+            const femId = req.fem.id;
             let screenshots = req.files.images;
 
             if (screenshots.data) {
@@ -44,13 +44,13 @@ router.post('/',
 
             const parsedManifest = JSON.parse(req.files.code.data.toString());
 
-            if (parsedManifest.id !== cbmId)
-                throw new Error('Manifest ID does not match the CBM ID.')
+            if (parsedManifest.id !== femId)
+                throw new Error('Manifest ID does not match the FEM ID.')
 
             const release = await model.Release.create({
                 status: 0,
 
-                CBMId: cbmId,
+                FEMId: femId,
 
                 name: parsedManifest.name,
                 version: parsedManifest.version,
@@ -63,7 +63,7 @@ router.post('/',
             });
 
             // TODO: Copy images to correct folder
-            const releaseFolder = path.join(__dirname, '../../../../../image-store', cbmId, release.id.toString());
+            const releaseFolder = path.join(__dirname, '../../../../../image-store', femId, release.id.toString());
             const screenshotFolder = path.join(releaseFolder, 'screenshots');
 
             if (fs.existsSync(releaseFolder))
@@ -79,7 +79,7 @@ router.post('/',
 
             res.redirect(`../${release.id}/`);
         } catch (e) {
-            res.render('dev/cbm/release/new', {error: e.message, cbm: req.cbm});
+            res.render('dev/fem/release/new', {error: e.message, fem: req.fem});
         }
     });
 

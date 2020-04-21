@@ -17,7 +17,7 @@ block innercontent
                 ul#pending
                     each review in pendingReviews
                         li
-                            a(href=`./review/${review.id}/`) #{review.publisher}: #{review.cbm.name} #{review.version}
+                            a(href=`./review/${review.id}/`) #{review.publisher}: #{review.fem.name} #{review.version}
                     else
                         p n/a
         div
@@ -27,7 +27,7 @@ block innercontent
                     each review in pastReviews
                         li
                             a(href=`./review/${review.id}/`)
-                                | #{review.cbm.name} #{review.version}
+                                | #{review.fem.name} #{review.version}
                                 |
                                 span.uk-label(class=(review.status === 2 ? 'uk-label-danger' : 'uk-label-success')) #{review.status === 2 ? 'REJECTED' : 'APPROVED'}
                     else

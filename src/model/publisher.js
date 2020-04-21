@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     Publisher.associate = (models) => {
-        models.Publisher.hasMany(models.CBM);
+        models.Publisher.hasMany(models.FEM);
     }
 
     return Publisher;

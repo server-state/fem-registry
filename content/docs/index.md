@@ -2,4 +2,4 @@
 ![Cover](img/index/cover.png)
 
 ## Links
-- [Get started with CBM development](getting-started.md)
+- [Get started with FEM development](getting-started.md)

@@ -1,7 +1,7 @@
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class CBM extends Model {
+    class FEM extends Model {
         async getLatestApprovedRelease() {
             const releases = await this.getReleases({
                 where: {
@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }
 
-    CBM.init({
+    FEM.init({
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -25,18 +25,18 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-    }, {sequelize, modelName: 'CBM'})
+    }, {sequelize, modelName: 'FEM'})
 
-    CBM.associate = (models) => {
-        models.CBM.belongsTo(models.Publisher, {
+    FEM.associate = (models) => {
+        models.FEM.belongsTo(models.Publisher, {
             onDelete: 'CASCADE',
             foreignKey: {
                 allowNull: false
             }
         });
 
-        models.CBM.hasMany(models.Release)
+        models.FEM.hasMany(models.Release)
     }
 
-    return CBM;
+    return FEM;
 };

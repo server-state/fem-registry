@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cbmDetailRouter = require('./cbm-detail');
+const femDetailRouter = require('./fem-detail');
 const model = require('../../../model');
 
 /* GET home page. */
@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/new', async (req, res) => {
-    return res.render('dev/cbm/new');
+    return res.render('dev/fem/new');
 });
 
 router.post('/new',
@@ -20,21 +20,21 @@ router.post('/new',
      */
     async (req, res) => {
     if (!req.body['name'])
-        return res.render('dev/cbm/new', {
+        return res.render('dev/fem/new', {
             error: 'Some required fields are empty!'
         });
 
-    const cbm = await model.CBM.create({
+    const fem = await model.FEM.create({
         name: req.body.name,
         PublisherId: req.user.id
     })
 
-    return res.redirect(`/dev/cbm/${cbm.id}/`);
+    return res.redirect(`/dev/fem/${fem.id}/`);
 });
 
-router.param('cbm',
+router.param('fem',
     /**
-     * @param {express.Request & {user, cbm}} req
+     * @param {express.Request & {user, fem}} req
      * @param res
      * @param next
      * @param id
@@ -42,10 +42,10 @@ router.param('cbm',
      */
     async (req, res, next, id) => {
     try {
-        const cbm = await model.CBM.findByPk(id);
+        const fem = await model.FEM.findByPk(id);
 
-        if (req['user'].id === (await cbm.getPublisher()).id) {
-            req.cbm = cbm;
+        if (req['user'].id === (await fem.getPublisher()).id) {
+            req.fem = fem;
             return next();
         } else {
             res.sendStatus(403);
@@ -55,6 +55,6 @@ router.param('cbm',
     }
 });
 
-router.use('/:cbm', cbmDetailRouter);
+router.use('/:fem', femDetailRouter);
 
 module.exports = router;

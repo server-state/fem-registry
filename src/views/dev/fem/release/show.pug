@@ -2,7 +2,7 @@ extends ../../layout
 
 block append breadcrumbs
     li
-        a(href='../../')=cbm.name
+        a(href='../../')=fem.name
     li
         span=release.version
 
@@ -14,7 +14,7 @@ block innercontent
             div(uk-card).uk-card-body.uk-card-default
                 h2.uk-card-title Metadata
                 h3 Name
-                p=cbm.name
+                p=fem.name
                 h3 Support URL
                 p
                     a(href=release.support_url)=release.support_url
