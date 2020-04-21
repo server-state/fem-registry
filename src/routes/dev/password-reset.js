@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
     res.render('password-reset');
 });
 
-const Publisher = require('../../model/Publisher');
 router.post('/', async (req, res) => {
     const publisher = await model.Publisher.findOne({where: {email: req.body.email}});
 
