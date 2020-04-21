@@ -5,8 +5,6 @@ const config = process.env.NODE_ENV === 'production' ? require('../config/config
     storage: ':memory:'
 };
 
-console.log('Using', config);
-
 const conn = new Sequelize(config);
 
 module.exports = conn;

@@ -44,8 +44,6 @@ router.post('/',
 
             const parsedManifest = JSON.parse(req.files.code.data.toString());
 
-            console.log(parsedManifest, parsedManifest.id, cbmId);
-
             if (parsedManifest.id !== cbmId)
                 throw new Error('Manifest ID does not match the CBM ID.')
 

@@ -22,7 +22,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
+app.use(logger('common'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
@@ -42,7 +42,7 @@ app.use(sassMiddleware({
     src: path.join(__dirname, '../public'),
     dest: path.join(__dirname, '../public'),
     indentedSyntax: false, // true = .sass and false = .scss
-    debug: true,
+    debug: !(process.env.NODE_ENV = 'production'),
     sourceMap: true
 }));
 //endregion

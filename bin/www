@@ -3,6 +3,26 @@
 /**
  * Module dependencies.
  */
+const fs = require('fs');
+const path = require('path');
+
+const configExists = require('fs').existsSync(path.join(__dirname, '..', 'config', 'config.json'));
+console.log('Starting cbm-registry');
+
+if (configExists) {
+  console.log('config.json found => Running in production mode');
+} else {
+  console.log('config.json not found => Running in development mode')
+  console.log(ch.yellow('In development mode, data will get stored in-memory and lost after stopping the server.'))
+  console.log('To create a config.json, please run the ./bin/setup script.');
+}
+
+if (configExists) {
+  process.env.NODE_ENV = 'production';
+} else if (process.env.NODE_ENV === 'production') {
+  process.env.NODE_ENV = 'development'
+}
+
 const app = require('../src/app');
 const debug = require('debug')('plugin-registry:server');
 const http = require('http');

@@ -56,9 +56,6 @@ router.get('/', requireAuthenticated,
             include: [ { model: model.CBM} ]
         });
 
-        console.log(pastReviews)
-
-
         const pendingReviewData = await Promise.all(pendingReviews.map(async review => {
             const publisher = await review.CBM.getPublisher();
 

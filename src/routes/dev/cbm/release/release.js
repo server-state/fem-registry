@@ -26,7 +26,6 @@ router.param('release',
                 res.sendStatus(403);
             }
         } catch (e) {
-            console.log('release not found');
             res.sendStatus(404);
         }
     });

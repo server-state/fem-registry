@@ -39,7 +39,7 @@
     "passport-local-authenticate": "^1.2.0",
     "pg": "^8.0.2",
     "pg-hstore": "^2.3.3",
-    "pm2": "^4.2.3",
+    "pm2": "^4.3.1",
     "prettier": "^1.19.1",
     "pug": "^2.0.4",
     "sequelize": "^5.21.6",

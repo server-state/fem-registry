@@ -1,0 +1,7 @@
+{
+  "uid": "cbm-registry",
+  "append": true,
+  "watch": true,
+  "sourceDir": ".",
+  "script": "bin/www"
+}
