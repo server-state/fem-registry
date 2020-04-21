@@ -31,7 +31,7 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 
 db.sequelize.sync().then(async () => {
-    if (env === 'development') {
+    if (env !== 'production') {
         const maintainer = new db.Maintainer();
 
         maintainer.name = 'Pablo Klaschka';

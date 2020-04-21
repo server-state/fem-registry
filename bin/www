@@ -11,7 +11,9 @@ const ch = require('chalk');
 const configExists = require('fs').existsSync(path.join(__dirname, '..', 'config', 'config.json'));
 console.log('Starting fem-registry');
 
-if (configExists) {
+if (process.env.NODE_ENV === 'cypress') {
+  console.log('Cypress Testing Mode enabled');
+} else if (configExists) {
   console.log('config.json found => Running in production mode');
 } else {
   console.log('config.json not found => Running in development mode')
@@ -19,7 +21,7 @@ if (configExists) {
   console.log('To create a config.json, please run the ./bin/setup script.');
 }
 
-if (configExists) {
+if (configExists && process.env.NODE_ENV !== 'cypress') {
   process.env.NODE_ENV = 'production';
 } else if (process.env.NODE_ENV === 'production') {
   process.env.NODE_ENV = 'development'

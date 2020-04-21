@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "test:start": "NODE_ENV=cypress npm run-script start",
     "test:e2e": "cypress run",
-    "test": "npm run-script example-data:setup && start-server-and-test start http://localhost:3000 test:e2e && npm run-script example-data:teardown",
+    "test": "start-server-and-test test:start http://localhost:3000 test:e2e && npm run-script example-data:teardown",
     "example-data:setup": "node ./db/example-data/setup-example-data.js",
     "example-data:teardown": "node ./db/example-data/teardown-example-data.js"
   },

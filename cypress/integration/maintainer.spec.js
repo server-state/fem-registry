@@ -1,72 +1,93 @@
 /// <reference types="Cypress" />
 
-context('Maintainer Area', () => {
-    context('Login', () => {
-        beforeEach(() => {
-            cy.visit('/maintainer/logout/').visit('/maintainer/login/');
-        });
-        it('should reject logins with wrong credentials', () => {
-            cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', 'wrong');
-            cy.location('pathname').should('contain', 'login');
-        });
-
-        it('should redirect unauthenticated users to login', () => {
-            cy.visit('/maintainer/');
-            cy.location('pathname').should('contain', 'login');
-        });
-
-        it('should accept logins with correct credentials', () => {
-            cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
-            cy.location('pathname').should('not.contain', 'login');
-        });
+context('Maintainer Area Login', () => {
+    beforeEach(() => {
+        cy.visit('/maintainer/logout/');
+        cy.visit('/maintainer/');
     });
 
-    context('Logged in', () => {
-        before(() => {
-            cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
-            cy.reload();
-            cy.screenshot();
-        });
+    it('shows a login screen', () => {
+        cy.location('pathname').should('contain', 'login');
+        cy.contains('Login');
+        cy.wait(200);
+        cy.screenshot();
+    });
 
-        it('should be logged in as Maintainer 1', () => {
-            cy.contains('Hi, Maintainer 1');
-        });
-        
-        it('should contain two pending reviews', () => {
-            cy.get('ul#pending').children('li').should('have.length', 2);
-        });
+    it(`rejects wrong credentials`, () => {
+        cy.get('input[name="username"]').focus().type('wrongUser@email.com')
+        cy.get('input[name="password"]').type('12345')
+        cy.get('input[type="submit"]').contains('Log in').click();
+        cy.get('.uk-alert-danger').contains('Invalid');
 
-        describe('Reject a release', () => {
-            before(() => {
-                cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
-                cy.get('ul#pending a').first().click();
-                cy.contains('Reject').children('input').click();
-                cy.contains('Comment').children('textarea').type('Some rejection reason');
-                cy.get('[type="submit"]').click();
-            });
-            
-            it('should have returned to the maintainer home page', () => {
-                cy.location('pathname').should('not.contain', 'review');
-            });
-            it('should have rejected the review', () => {
-                cy.get('ul#pending').children('li').should('have.length', 1);
-            })
-        });
-        describe('Approve a release', () => {
-            before(() => {
-                cy['login']('/maintainer/login/', 'klaschka@fliegwerk.com', '12345');
-                cy.get('ul#pending a').first().click();
-                cy.contains('Reject').children('input').click();
-                cy.contains('Comment').children('textarea').type('Some rejection reason');
-                cy.get('[type="submit"]').click();
-            });
+        cy.wait(200);
+        cy.screenshot();
+    });
 
-            it('should have returned to the maintainer home page', () => {
-                cy.location('pathname').should('not.contain', 'review');
-            });
-            it('should have rejected the review', () => {
-                cy.get('ul#pending').children('li').should('have.length', 0);
-            })
-        });
+    it(`allows real credentials`, () => {
+        cy.get('input[name="username"]').focus().type('contact@pabloklaschka.de')
+        cy.get('input[name="password"]').type('12345')
+        cy.get('input[type="submit"]').contains('Log in').click();
+
+        cy.location('pathname').should('not.contain', 'login');
+        cy.contains('Hi,')
+        cy.contains('Logout');
     });
 });
+
+context('Maintainer Area Logged In', () => {
+    beforeEach(() => {
+        Cypress.Cookies.preserveOnce('connect.sid');
+    })
+
+    before(() => {
+        cy.visit('/maintainer/');
+        cy.get('input[name="username"]').focus().type('contact@pabloklaschka.de')
+        cy.get('input[name="password"]').type('12345')
+        cy.get('input[type="submit"]').contains('Log in').click();
+    })
+
+    it(`shows pending and past reviews`, () => {
+        cy.visit('/maintainer/')
+
+
+        cy.get('#pending')
+            .children().should('have.length', 1)
+
+
+        cy.get('#pending')
+            .children()
+            .contains('Table FEM');
+
+        cy.get('#past')
+            .children().should('have.length', 2);
+
+        cy.get('.uk-card-badge')
+            .should('contain', '1')
+
+        cy.wait(200);
+        cy.screenshot();
+    });
+
+    it(`open a pending review`, () => {
+        cy.visit('/maintainer/')
+        cy.get('#pending a').first().click();
+
+        cy.location('pathname').should('contain', '/review/1')
+        cy.get('h1').contains('Table FEM');
+
+        cy.wait(200);
+        cy.screenshot();
+
+        cy.get('.uk-breadcrumb a').contains('Maintainer Area').click();
+        cy.location('pathname').should('not.contain', 'review');
+    });
+
+    it('rejects a review', () => {
+        cy.visit('/maintainer/review/1/')
+
+        cy.contains('Reject').first().click();
+        cy.get('textarea').type('Some arbitrary reason ;-)');
+        cy.get('input[type="submit"]').click();
+    });
+
+})
