@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const sendPasswordResetMail = require('../../lib/email/password-reset');
 const url = require('url');
+const getBaseURL = require('../../lib/baseURL');
 
 const model = require('../../model');
 
@@ -19,11 +20,7 @@ router.post('/', async (req, res) => {
 
     const resetHandler = await model.PendingPasswordReset.create({PublisherId: publisher.id});
 
-    const resetURL = new url.URL(`./${resetHandler.id}/`, url.format({
-        protocol: req.protocol,
-        host: req.get('host'),
-        pathname: req.originalUrl
-    }));
+    const resetURL = new url.URL(`${getBaseURL(req)}${req.originalUrl}${resetHandler.id}/`);
 
     // Deactivate link after 30 minutes
     await sendPasswordResetMail(publisher, resetURL.href);

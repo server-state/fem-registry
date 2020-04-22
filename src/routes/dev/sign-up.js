@@ -3,6 +3,7 @@ const router = express.Router();
 const validator = require('validator').default;
 const sendVerificationMail = require('../../lib/email/verify-email');
 const url = require('url');
+const getBaseURL = require('../../lib/baseURL');
 const model = require('../../model');
 
 router.get('/', (req, res) => {
@@ -52,11 +53,7 @@ router.post('/',
                 email: req.body['email']
             });
 
-            const verificationURL = new url.URL(`./${verificationMailEntry.id}/`, url.format({
-                protocol: req.protocol,
-                host: req.get('host'),
-                pathname: req.originalUrl
-            }));
+            const verificationURL = new url.URL(`/dev/sign-up/${verificationMailEntry.id}/`, getBaseURL(req));
 
             await sendVerificationMail(publisher, req.body.email, verificationURL.href);
             return res.render('message', {

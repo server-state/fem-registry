@@ -1,6 +1,11 @@
 const {Model} = require('sequelize');
 const bcrypt = require('bcryptjs');
 
+/**
+ * @param {import('sequelize').Sequelize}sequelize
+ * @param {import('sequelize').DataTypes}DataTypes
+ * @return {Publisher}
+ */
 module.exports = (sequelize, DataTypes) => {
     class Publisher extends Model {
         async setPassword(password) {

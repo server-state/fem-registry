@@ -17,6 +17,7 @@ let config = {
         signUpVerificationLinkExpiryAfterMinutes: 30,
         emailChangeVerificationLinkExpiryAfterMinutes: 10,
         passwordResetLinkExpiryAfterMinutes: 10,
+        baseURL: 'http://localhost:3000/'
     }
 }
 
@@ -24,6 +25,7 @@ const constantLabels = {
     signUpVerificationLinkExpiryAfterMinutes: 'After how many minutes should the verification link for signing up expire?',
     emailChangeVerificationLinkExpiryAfterMinutes: 'After how many minutes should the verification link for changing the email address expire?',
     passwordResetLinkExpiryAfterMinutes: 'After how many minutes should the verification link for resetting the password expire?',
+    baseURL: 'Base URL (full URL)'
 }
 
 async function confirm(question, config) {

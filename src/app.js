@@ -42,7 +42,7 @@ app.use(sassMiddleware({
     src: path.join(__dirname, '../public'),
     dest: path.join(__dirname, '../public'),
     indentedSyntax: false, // true = .sass and false = .scss
-    debug: !(process.env.NODE_ENV = 'production'),
+    debug: (process.env.NODE_ENV !== 'production'),
     sourceMap: true
 }));
 //endregion

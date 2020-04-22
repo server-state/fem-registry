@@ -3,7 +3,7 @@ const path = require('path');
 
 const transport = process.env.NODE_ENV === 'production'
     ? require('nodemailer').createTransport(require('../../../config/config.json').smtp)
-    : { jsonTransport: true };
+    : {jsonTransport: true};
 /**
  * @type {*}
  * An email config using the server's configuration for sending emails.
@@ -18,11 +18,12 @@ const transport = process.env.NODE_ENV === 'production'
         someVariableExposedInTemplate
     }
 })
-```
+ ```
  */
 module.exports = new Email({
     message: {
-        from: 'cockpit@fliegwerk.com'
+        from: process.env.NODE_ENV === 'production' ? require('../../../config/config.json').smtp.auth.user
+            : 'development@cbm-registry'
     },
     transport,
     views: {
