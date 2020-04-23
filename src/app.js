@@ -2,6 +2,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
@@ -37,6 +38,19 @@ app.use(session({
         saveUninitialized: false
     }
 ));
+
+try {
+    const src = path.join(__dirname, '..', 'node_modules', 'uikit', 'dist', 'js', 'uikit.min.js');
+    const dist = path.join(__dirname, '..', 'public', 'js', 'uikit.min.js');
+
+    if (!fs.existsSync(dist))
+        fs.copyFileSync(
+            src,
+            dist
+        );
+} catch (e) {
+    console.error(`Couldn't copy required JS`, e)
+}
 
 app.use(sassMiddleware({
     src: path.join(__dirname, '../public'),
