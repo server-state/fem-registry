@@ -10,7 +10,7 @@ const env = process.env['NODE_ENV'] || 'development';
  */
 const db = {};
 
-const sequelize = require('../../db/conn');
+const sequelize = require('../db/conn');
 
 fs
     .readdirSync(__dirname)

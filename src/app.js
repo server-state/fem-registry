@@ -12,7 +12,7 @@ const indexRouter = require('./routes');
 const devRouter = require('./routes/dev');
 const apiRouter = require('./routes/api');
 const maintainerRouter = require('./routes/maintainer');
-const db = require('../db/conn');
+const db = require('./db/conn');
 //endregion
 
 //region Basic Setup

@@ -2,14 +2,15 @@ extends auth-layout
 
 block auth
     h1 Sign Up
-    p After registering, you'll need to verify your email address. After that, you'll be ready to create your own FEMs.
+    p After signing up, you'll need to verify your email address. After that, you'll be ready to create your own FEMs.
 
     p Already have an account?
+        | &nbsp;
         a(href='../login/') Log in
 
     if (error && error.length > 0)
         .uk-alert-danger(uk-alert)=error
-    form(method='post', tabindex=1)
+    form(method='post')
         label.uk-form-label Email
             br
             input.uk-input(name='email' type='email', required, autofocus=true)
@@ -26,5 +27,9 @@ block auth
             br
             input.uk-input(name='p2' type='password', required)
         br
-        input.uk-margin-top.uk-button.uk-button-primary(type='submit' value='Log in')
+        label.uk-form-label
+            input.uk-checkbox(type='checkbox' name='privacy-policy')
+            | &nbsp;I have read and accept the #[a(href='/privacy-policy/') Privacy Policy]
+        br
+        input.uk-margin-top.uk-button.uk-button-primary(type='submit' value='Sign up')
 
