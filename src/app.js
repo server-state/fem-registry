@@ -43,7 +43,7 @@ try {
     const src = path.join(__dirname, '..', 'node_modules', 'uikit', 'dist', 'js', 'uikit.min.js');
     const dist = path.join(__dirname, '..', 'public', 'js', 'uikit.min.js');
 
-    if (!fs.existsSync(dist))
+    if (!fs.existsSync(dist) || fs.statSync(src).mtimeMs > fs.statSync(dist).mtimeMs)
         fs.copyFileSync(
             src,
             dist

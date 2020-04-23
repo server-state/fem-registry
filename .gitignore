@@ -13,5 +13,6 @@ config/config.json
 /image-store/*/**
 !/image-store/femId/
 
+/public/js/uikit.min.js
 /public/stylesheets/*.css
 /public/stylesheets/*.css.map
