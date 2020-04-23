@@ -12,3 +12,6 @@ config/config.json
 
 /image-store/*/**
 !/image-store/femId/
+
+/public/stylesheets/*.css
+/public/stylesheets/*.css.map
