@@ -40,6 +40,7 @@ app.use(session({
 
 app.use(sassMiddleware({
     src: path.join(__dirname, '../public'),
+    // includePaths: ['node_modules'],
     dest: path.join(__dirname, '../public'),
     indentedSyntax: false, // true = .sass and false = .scss
     debug: (process.env.NODE_ENV !== 'production'),
