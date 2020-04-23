@@ -15,7 +15,6 @@
     "ext": "js json pug scss"
   },
   "dependencies": {
-    "@types/js-beautify": "^1.8.1",
     "bcryptjs": "^2.4.3",
     "chalk": "^4.0.0",
     "connect-flash": "^0.1.1",
@@ -44,12 +43,12 @@
     "prettier": "^1.19.1",
     "pug": "^2.0.4",
     "sequelize": "^5.21.6",
-    "shelljs": "^0.8.3",
     "sqlite3": "^4.1.1",
     "trailing-slash": "^2.0.0",
     "validator": "^12.1.0"
   },
   "devDependencies": {
+    "@types/js-beautify": "^1.8.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/chalk": "^2.2.0",
     "@types/cypress": "^1.1.3",
