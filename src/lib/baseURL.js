@@ -1,5 +1,3 @@
-const url = new require('url');
-
 const isProd = process.env.NODE_ENV === 'production';
 let baseURL = null;
 
