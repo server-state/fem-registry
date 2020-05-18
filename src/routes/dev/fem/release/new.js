@@ -37,7 +37,7 @@ router.post('/',
             }
 
             const imagesAreValid = screenshots.reduce((prev, curr) => prev && curr.mimetype.startsWith('image/'), true);
-            if (!imagesAreValid || !req.files.logo.mimtype === 'image/png') {
+            if (!imagesAreValid || req.files.logo.mimtype !== 'image/png') {
                 throw new Error('Not all image files are valid.')
             }
 
