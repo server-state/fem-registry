@@ -61,7 +61,7 @@
     "@types/prettier": "^1.19.0",
     "@types/sequelize": "^4.28.8",
     "@types/sqlite3": "^3.1.6",
-    "cypress": "^3.8.2",
+    "cypress": "^4.6.0",
     "start-server-and-test": "^1.10.6",
     "ts-node": "^8.6.2",
     "typescript": "^3.9.3"
