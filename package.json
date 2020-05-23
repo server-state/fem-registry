@@ -23,7 +23,7 @@
     "email-templates": "^6.1.1",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6",
-    "express-session": "^1.17.0",
+    "express-session": "^1.17.1",
     "express-session-sequelize": "^2.2.0",
     "http-errors": "~1.6.3",
     "inquirer": "^7.1.0",
