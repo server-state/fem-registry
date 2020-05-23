@@ -25,7 +25,7 @@
     "express-fileupload": "^1.1.6",
     "express-session": "^1.17.1",
     "express-session-sequelize": "^2.2.0",
-    "http-errors": "~1.6.3",
+    "http-errors": "~1.7.3",
     "inquirer": "^7.1.0",
     "inquirer-file-path": "^1.0.1",
     "mariadb": "^2.3.1",
