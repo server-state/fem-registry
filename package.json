@@ -46,7 +46,7 @@
     "sqlite3": "^4.2.0",
     "trailing-slash": "^2.0.0",
     "uikit": "^3.4.2",
-    "validator": "^12.1.0"
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "@types/js-beautify": "^1.11.0",
