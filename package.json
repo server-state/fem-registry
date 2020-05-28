@@ -28,7 +28,7 @@
     "http-errors": "~1.7.3",
     "inquirer": "^7.1.0",
     "inquirer-file-path": "^1.0.1",
-    "mariadb": "^2.3.1",
+    "mariadb": "^2.4.0",
     "markdown-it": "^11.0.0",
     "morgan": "~1.10.0",
     "mysql2": "^2.1.0",
