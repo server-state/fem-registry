@@ -41,7 +41,7 @@
     "pg-hstore": "^2.3.3",
     "pm2": "^4.4.0",
     "prettier": "^1.19.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.0",
     "sequelize": "^5.21.6",
     "sqlite3": "^4.2.0",
     "trailing-slash": "^2.0.0",
