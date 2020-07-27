@@ -28,6 +28,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
+csrf = require("csurf");
+app.use(csrf({cookie: true}))
+
 const SessionStore = require('express-session-sequelize')(session.Store);
 app.use(session({
         secret: process.env.SECRET || 'abc',
