@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 const SessionStore = require('express-session-sequelize')(session.Store);
 app.use(session({
-        secret: 'abc',
+        secret: process.env.SECRET || 'abc',
         store: new SessionStore({
             db,
         }),
