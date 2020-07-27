@@ -66,6 +66,7 @@ block innercontent
     h2 Review
     p Review here:
     form(method="post")
+        input(type='hidden' name='_csrf' value=csrfToken)
         fieldset.uk-fieldset
             label.uk-form-label
                 input.uk-radio(name="result" type="radio" value="approve")

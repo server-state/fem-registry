@@ -3,7 +3,7 @@ const router = express.Router();
 const limiter = require('../../../lib/rateLimiter')
 
 router.get('/', (req, res) => {
-    return res.render('dev/profile/edit', {user: req['user']});
+    return res.render('dev/profile/edit', {user: req['user'], csrfToken: req.csrfToken()});
 });
 
 router.post('/', limiter,

@@ -88,7 +88,7 @@ router.get('/', requireAuthenticated,
 
 router.get('/login', (req, res) => {
     req.logOut();
-    return res.render('login', {error: req.flash('error')});
+    return res.render('login', {error: req.flash('error'), csrfToken: req.csrfToken()});
 });
 
 router.post('/login', passport.authenticate('local', {
@@ -138,7 +138,8 @@ router.get('/review/:id', requireAuthenticated, async (req, res) => {
             publisher: {
                 name: publisher.name,
                 email: publisher.email
-            }
+            },
+            csrfToken: req.csrfToken()
         });
     } catch (e) {
         res.sendStatus(404);

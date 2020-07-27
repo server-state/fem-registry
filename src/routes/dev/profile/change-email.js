@@ -9,7 +9,7 @@ const model = require('../../../model');
 const limiter = require('../../../lib/rateLimiter')
 
 router.get('/', (req, res) => {
-    res.render('dev/profile/change-email');
+    res.render('dev/profile/change-email', {csrfToken: req.csrfToken()});
 });
 
 router.post('/', limiter,
@@ -19,37 +19,39 @@ router.post('/', limiter,
      * @returns {Promise<void>}
      */
     async (req, res) => {
-    if (!validator.isEmail(req.body['email'])) {
-        return res.render('dev/profile/change-email', {
-                error: 'Not a valid email'
-            }
-        );
-    } else if (await model.Publisher.isEmailUsed(req.body['email'])) {
-        return res.render('dev/profile/change-email', {
-                error: 'Email is already used.'
-            }
-        );
-    } else {
-        const dbEntry = await model.PendingEmailConfirmations.create({
-            PublisherId: req.user.id,
-            email: req.body.email
-        });
+        if (!validator.isEmail(req.body['email'])) {
+            return res.render('dev/profile/change-email', {
+                    error: 'Not a valid email',
+                    csrfToken: req.csrfToken()
+                }
+            );
+        } else if (await model.Publisher.isEmailUsed(req.body['email'])) {
+            return res.render('dev/profile/change-email', {
+                    error: 'Email is already used.',
+                    csrfToken: req.csrfToken()
+                }
+            );
+        } else {
+            const dbEntry = await model.PendingEmailConfirmations.create({
+                PublisherId: req.user.id,
+                email: req.body.email
+            });
 
-        const verificationURL = new url.URL(`${getBaseURL(req)}${req.originalUrl}${dbEntry.id}/`);
+            const verificationURL = new url.URL(`${getBaseURL(req)}${req.originalUrl}${dbEntry.id}/`);
 
 
-        await sendVerificationMail(req.user, req.body.email, verificationURL.href);
+            await sendVerificationMail(req.user, req.body.email, verificationURL.href);
 
-        return res.render('message', {
-            title: 'Please verify your new email',
-            message: 'An email containing a confirmation link has been sent to your new email address. Please open it within 10 minutes to confirm your new email address. If no verification occurs in this time, your old email will be kept and you\'ll have to try again.',
-            next: {
-                label: 'Back to profile',
-                url: '../'
-            }
-        });
-    }
-});
+            return res.render('message', {
+                title: 'Please verify your new email',
+                message: 'An email containing a confirmation link has been sent to your new email address. Please open it within 10 minutes to confirm your new email address. If no verification occurs in this time, your old email will be kept and you\'ll have to try again.',
+                next: {
+                    label: 'Back to profile',
+                    url: '../'
+                }
+            });
+        }
+    });
 
 router.get('/:verificationUUID', async (req, res) => {
     // Save as variable to avoid racing conditions:

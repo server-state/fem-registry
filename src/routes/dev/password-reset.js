@@ -8,7 +8,7 @@ const limiter = require('../../lib/rateLimiter')
 const model = require('../../model');
 
 router.get('/', (req, res) => {
-    res.render('password-reset');
+    res.render('password-reset', {csrfToken: req.csrfToken()});
 });
 
 router.post('/', limiter, async (req, res) => {

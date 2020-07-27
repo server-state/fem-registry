@@ -11,6 +11,7 @@ block innercontent
     if error
         p=error
     form(method='post')
+        input(type='hidden' name='_csrf' value=csrfToken)
         p
             label.uk-form-label Name
                 input.uk-input(type='text' name='name' value=user.name required)

@@ -10,7 +10,8 @@ const limiter = require('../../../../lib/rateLimiter')
 router.get('/', (req, res) => {
     return res.render('dev/fem/release/new', {
         fem: req['fem'],
-        error: null
+        error: null,
+        csrfToken: req.csrfToken()
     });
 });
 
@@ -80,7 +81,7 @@ router.post('/', limiter,
 
             res.redirect(`../${release.id}/`);
         } catch (e) {
-            res.render('dev/fem/release/new', {error: e.message, fem: req.fem});
+            res.render('dev/fem/release/new', {error: e.message, fem: req.fem, csrfToken: req.csrfToken()});
         }
     });
 

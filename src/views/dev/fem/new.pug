@@ -9,6 +9,7 @@ block innercontent
     if error
         .uk-alert-danger(uk-alert)=error
     form(method='post')
+        input(type='hidden' name='_csrf' value=csrfToken)
         h3 Required Fields
         label.uk-form-label Project Name (for internal use, not visible to users)
             input.uk-input(name='name' required)

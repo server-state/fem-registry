@@ -8,7 +8,7 @@ const model = require('../../model');
 const limiter = require('../../lib/rateLimiter')
 
 router.get('/', (req, res) => {
-    res.render('sign-up');
+    res.render('sign-up', {csrfToken: req.csrfToken()});
 });
 
 router.post('/', limiter,
@@ -40,7 +40,8 @@ router.post('/', limiter,
 
         if (error.length !== 0) {
             return res.render('sign-up', {
-                    error: error.join(', ')
+                    error: error.join(', '),
+                    csrfToken: req.csrfToken()
                 }
             );
         } else {

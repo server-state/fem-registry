@@ -11,6 +11,7 @@ block auth
     if (error && error.length > 0)
         .uk-alert-danger(uk-alert)=error
     form(method='post', tabindex=1)
+        input(type='hidden' name='_csrf' value=csrfToken)
         label.uk-form-label Email
             br
             input.uk-input(name='username' type='email', autofocus=true)

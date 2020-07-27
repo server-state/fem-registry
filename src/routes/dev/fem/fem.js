@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/new', async (req, res) => {
-    return res.render('dev/fem/new');
+    return res.render('dev/fem/new', {csrfToken: req.csrfToken()});
 });
 
 router.post('/new', limiter,
@@ -22,7 +22,8 @@ router.post('/new', limiter,
     async (req, res) => {
     if (!req.body['name'])
         return res.render('dev/fem/new', {
-            error: 'Some required fields are empty!'
+            error: 'Some required fields are empty!',
+            csrfToken: req.csrfToken()
         });
 
     const fem = await model.FEM.create({

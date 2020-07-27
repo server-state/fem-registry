@@ -3,7 +3,7 @@ const router = express.Router();
 const limiter = require('../../../lib/rateLimiter')
 
 router.get('/', (req, res) => {
-    res.render('dev/profile/change-password');
+    res.render('dev/profile/change-password', {csrfToken: req.csrfToken()});
 });
 
 router.post('/', limiter,
@@ -28,7 +28,7 @@ router.post('/', limiter,
     }
 
     if (error.length) {
-        res.render('dev/profile/change-password', {error: error.join(', ')});
+        res.render('dev/profile/change-password', {error: error.join(', '), csrfToken: req.csrfToken()});
     } else {
         await req['user'].setPassword(req.body['new1']);
         res.redirect('..');
