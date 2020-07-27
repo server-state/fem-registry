@@ -3,6 +3,7 @@ const router = express.Router();
 const sendPasswordResetMail = require('../../lib/email/password-reset');
 const url = require('url');
 const getBaseURL = require('../../lib/baseURL');
+const limiter = require('../../lib/rateLimiter')
 
 const model = require('../../model');
 
@@ -10,7 +11,7 @@ router.get('/', (req, res) => {
     res.render('password-reset');
 });
 
-router.post('/', async (req, res) => {
+router.post('/', limiter, async (req, res) => {
     const publisher = await model.Publisher.findOne({where: {email: req.body.email}});
 
     if (!publisher)

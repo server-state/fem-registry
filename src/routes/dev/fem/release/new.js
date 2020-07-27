@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const model = require('../../../../model');
 const fileUploadMiddleware = require('express-fileupload');
+const limiter = require('../../../../lib/rateLimiter')
 
 router.get('/', (req, res) => {
     return res.render('dev/fem/release/new', {
@@ -18,7 +19,7 @@ router.use(fileUploadMiddleware({
     limits: {fileSize: 1024 * 1024 * 2}
 }));
 
-router.post('/',
+router.post('/', limiter,
     /**
      *
      * @param {express.Request & {fem, files}} req

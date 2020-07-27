@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const femDetailRouter = require('./fem-detail');
 const model = require('../../../model');
+const limiter = require('../../../lib/rateLimiter')
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -12,7 +13,7 @@ router.get('/new', async (req, res) => {
     return res.render('dev/fem/new');
 });
 
-router.post('/new',
+router.post('/new', limiter,
     /**
      * @param {express.Request & {user}} req
      * @param res

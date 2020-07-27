@@ -6,12 +6,13 @@ const url = require('url');
 const getBaseURL = require('../../../lib/baseURL');
 
 const model = require('../../../model');
+const limiter = require('../../../lib/rateLimiter')
 
 router.get('/', (req, res) => {
     res.render('dev/profile/change-email');
 });
 
-router.post('/',
+router.post('/', limiter,
     /**
      * @param {express.Request & {user, get}} req
      * @param res
