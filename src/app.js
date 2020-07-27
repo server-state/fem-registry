@@ -39,6 +39,18 @@ app.use(session({
     }
 ));
 
+const slowDown = require("express-slow-down");
+
+const speedLimiter = slowDown({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    delayAfter: 150, // allow 150 requests per 15 minutes, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 150:
+    // request # 151 is delayed by  500ms
+    // request # 152 is delayed by 1000ms
+    // request # 153 is delayed by 1500ms
+    // etc.
+});
+
 try {
     const src = path.join(__dirname, '..', 'node_modules', 'uikit', 'dist', 'js', 'uikit.min.js');
     const dist = path.join(__dirname, '..', 'public', 'js', 'uikit.min.js');
@@ -69,9 +81,9 @@ app.use('/images', express.static(path.join(__dirname, '../image-store')));
 
 //region Routers
 app.use('/', indexRouter);
-app.use('/dev/', trailingSlash({slash: true}), devRouter);
+app.use('/dev/', speedLimiter, trailingSlash({slash: true}), devRouter);
 app.use('/api', apiRouter);
-app.use('/maintainer/', trailingSlash({slash: true}), maintainerRouter);
+app.use('/maintainer/', speedLimiter, trailingSlash({slash: true}), maintainerRouter);
 //endregion
 
 //region Error Handling
