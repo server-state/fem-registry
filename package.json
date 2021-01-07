@@ -48,7 +48,7 @@
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0",
     "trailing-slash": "^2.0.0",
-    "uikit": "^3.6.7",
+    "uikit": "^3.6.8",
     "validator": "^13.5.2"
   },
   "devDependencies": {
