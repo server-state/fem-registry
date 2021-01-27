@@ -45,7 +45,7 @@
     "pm2": "^4.5.1",
     "prettier": "^2.2.1",
     "pug": "^3.0.0",
-    "sequelize": "^6.4.0",
+    "sequelize": "^6.5.0",
     "sqlite3": "^5.0.1",
     "trailing-slash": "^2.0.0",
     "uikit": "^3.6.14",
