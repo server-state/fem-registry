@@ -32,7 +32,7 @@
     "inquirer": "^8.0.0",
     "inquirer-file-path": "^1.0.1",
     "mariadb": "^2.5.3",
-    "markdown-it": "^12.0.5",
+    "markdown-it": "^12.0.6",
     "morgan": "~1.10.0",
     "mysql2": "^2.2.5",
     "node-sass-middleware": "0.11.0",
