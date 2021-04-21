@@ -49,7 +49,7 @@
     "sqlite3": "^5.0.2",
     "trailing-slash": "^2.0.0",
     "uikit": "^3.6.19",
-    "validator": "^13.5.2"
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "@types/js-beautify": "^1.13.1",
