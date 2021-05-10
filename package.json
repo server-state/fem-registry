@@ -47,7 +47,7 @@
     "pug": "^3.0.2",
     "sequelize": "^6.6.2",
     "sqlite3": "^5.0.2",
-    "trailing-slash": "^2.0.0",
+    "trailing-slash": "^2.0.1",
     "uikit": "^3.6.21",
     "validator": "^13.6.0"
   },
