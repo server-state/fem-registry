@@ -61,7 +61,7 @@
     "@types/node": "^15.12.5",
     "@types/passport": "^1.0.6",
     "@types/passport-local": "^1.0.33",
-    "@types/prettier": "^2.3.0",
+    "@types/prettier": "^2.3.1",
     "@types/sequelize": "^4.28.9",
     "@types/sqlite3": "^3.1.7",
     "cypress": "^7.6.0",
