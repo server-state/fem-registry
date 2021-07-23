@@ -60,7 +60,7 @@
     "@types/js-beautify": "^1.13.1",
     "@types/node": "^16.4.1",
     "@types/passport": "^1.0.6",
-    "@types/passport-local": "^1.0.33",
+    "@types/passport-local": "^1.0.34",
     "@types/prettier": "^2.3.1",
     "@types/sequelize": "^4.28.9",
     "@types/sqlite3": "^3.1.7",
