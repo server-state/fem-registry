@@ -36,7 +36,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.0",
     "node-sass-middleware": "^0.11.0",
-    "nodemailer": "^6.6.3",
+    "nodemailer": "^6.6.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-authenticate": "^1.2.0",
