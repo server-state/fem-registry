@@ -63,7 +63,7 @@
     "@types/passport-local": "^1.0.34",
     "@types/prettier": "^2.4.2",
     "@types/sequelize": "^4.28.10",
-    "@types/sqlite3": "^3.1.7",
+    "@types/sqlite3": "^3.1.8",
     "cypress": "^9.2.0",
     "start-server-and-test": "^1.14.0",
     "ts-node": "^10.4.0",
