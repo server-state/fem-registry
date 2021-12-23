@@ -22,7 +22,7 @@
     "csurf": "^1.11.0",
     "debug": "^4.3.3",
     "email-templates": "^8.0.8",
-    "express": "^4.17.1",
+    "express": "^4.17.2",
     "express-fileupload": "^1.2.1",
     "express-rate-limit": "^5.5.1",
     "express-session": "^1.17.2",
