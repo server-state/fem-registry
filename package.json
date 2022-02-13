@@ -40,7 +40,7 @@
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "passport-local-authenticate": "^1.2.0",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "pm2": "^5.1.2",
     "prettier": "^2.5.1",
